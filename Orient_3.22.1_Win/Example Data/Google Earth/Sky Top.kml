@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<!-- KLM Writer, Copyright 2015-2021 Frederick W. Vollmer -->
+<Document>
+<Style id="S1.strike">
+  <LineStyle>
+    <color>#FFFF0000</color>
+    <width>3</width>
+  </LineStyle>
+</Style>
+<Style id="S0.strike">
+  <LineStyle>
+    <color>#FF0000FF</color>
+    <width>3</width>
+  </LineStyle>
+</Style>
+<Style id="L.line">
+  <LineStyle>
+    <color>#FFFF00FF</color>
+    <width>3</width>
+  </LineStyle>
+</Style>
+<Style id="J.strike">
+  <LineStyle>
+    <color>#FF00FF00</color>
+    <width>3</width>
+  </LineStyle>
+</Style>
+    <Folder>
+      <name>S1</name>
+    <Placemark>
+      <name>S1: 160, 60</name>
+      <description>Plane strike. Weak solution cleavage</description>
+      <styleUrl>#S1.strike</styleUrl>
+      <MultiGeometry>
+        <LineString>
+          <coordinates>
+            -74.156373,41.763074,0.0
+            -74.156368,41.763064,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156368,41.763064,0.0
+            -74.156365,41.763058,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156365,41.763058,0.0
+            -74.156360,41.763048,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156365,41.763058,0.0
+            -74.156372,41.763059,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156368,41.763064,0.0
+            -74.156372,41.763059,0.0
+          </coordinates>
+        </LineString>
+      </MultiGeometry>
+    </Placemark>
+    </Folder>
+    <Folder>
+      <name>S0</name>
+    <Placemark>
+      <name>S0: 020, 10</name>
+      <description>Plane strike. Bedding</description>
+      <styleUrl>#S0.strike</styleUrl>
+      <MultiGeometry>
+        <LineString>
+          <coordinates>
+            -74.156192,41.763783,0.0
+            -74.156185,41.763796,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156192,41.763783,0.0
+            -74.156198,41.763771,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156192,41.763783,0.0
+            -74.156185,41.763781,0.0
+          </coordinates>
+        </LineString>
+      </MultiGeometry>
+    </Placemark>
+    <Placemark>
+      <name>S0: 035, 15</name>
+      <description>Plane strike. Ripple marks</description>
+      <styleUrl>#S0.strike</styleUrl>
+      <MultiGeometry>
+        <LineString>
+          <coordinates>
+            -74.156178,41.763350,0.0
+            -74.156167,41.763361,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156178,41.763350,0.0
+            -74.156188,41.763339,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156178,41.763350,0.0
+            -74.156172,41.763347,0.0
+          </coordinates>
+        </LineString>
+      </MultiGeometry>
+    </Placemark>
+    <Placemark>
+      <name>S0: 010, 25</name>
+      <description>Plane strike. Cross beds younging upward</description>
+      <styleUrl>#S0.strike</styleUrl>
+      <MultiGeometry>
+        <LineString>
+          <coordinates>
+            -74.156231,41.763036,0.0
+            -74.156227,41.763049,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156231,41.763036,0.0
+            -74.156234,41.763023,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156231,41.763036,0.0
+            -74.156223,41.763035,0.0
+          </coordinates>
+        </LineString>
+      </MultiGeometry>
+    </Placemark>
+    </Folder>
+    <Folder>
+      <name>L</name>
+    <Placemark>
+      <name>L: 160, 30</name>
+      <description>Line. Slickenside striations</description>
+      <styleUrl>#L.line</styleUrl>
+      <MultiGeometry>
+        <LineString>
+          <coordinates>
+            -74.156162,41.762996,0.0
+            -74.156149,41.762971,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156149,41.762971,0.0
+            -74.156156,41.762976,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156149,41.762971,0.0
+            -74.156149,41.762978,0.0
+          </coordinates>
+        </LineString>
+      </MultiGeometry>
+    </Placemark>
+    <Placemark>
+      <name>L: 150, 25</name>
+      <description>Line. Slickenside striations</description>
+      <styleUrl>#L.line</styleUrl>
+      <MultiGeometry>
+        <LineString>
+          <coordinates>
+            -74.156128,41.763053,0.0
+            -74.156110,41.763030,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156110,41.763030,0.0
+            -74.156118,41.763034,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156110,41.763030,0.0
+            -74.156112,41.763037,0.0
+          </coordinates>
+        </LineString>
+      </MultiGeometry>
+    </Placemark>
+    </Folder>
+    <Folder>
+      <name>J</name>
+    <Placemark>
+      <name>J: 200, 75</name>
+      <description>Plane strike. Possible Acadian joint set</description>
+      <styleUrl>#J.strike</styleUrl>
+      <MultiGeometry>
+        <LineString>
+          <coordinates>
+            -74.156366,41.763149,0.0
+            -74.156378,41.763123,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156378,41.763123,0.0
+            -74.156385,41.763125,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156366,41.763149,0.0
+            -74.156373,41.763151,0.0
+          </coordinates>
+        </LineString>
+      </MultiGeometry>
+    </Placemark>
+    <Placemark>
+      <name>J: 210, 80</name>
+      <description>Plane strike. Possible Acadian joint set</description>
+      <styleUrl>#J.strike</styleUrl>
+      <MultiGeometry>
+        <LineString>
+          <coordinates>
+            -74.156519,41.763292,0.0
+            -74.156537,41.763269,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156537,41.763269,0.0
+            -74.156543,41.763272,0.0
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            -74.156519,41.763292,0.0
+            -74.156525,41.763295,0.0
+          </coordinates>
+        </LineString>
+      </MultiGeometry>
+    </Placemark>
+    <Placemark>
+      <name></name>
+      <description>Sky Top - nice view!</description>
+      <Point>
+        <coordinates>-74.155939,41.763561,0.0</coordinates>
+      </Point>
+    </Placemark>
+    </Folder>
+  </Document>
+</kml>

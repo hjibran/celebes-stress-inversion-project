@@ -1,0 +1,42 @@
+// Measurements of L^1_0 axes (intersections between cleavage and bedding planes of F1
+// folds) in Ordovician turbidites.
+// Powell, Cole & Cudahy 1985
+//
+// Subset of data with two measurements removed.
+// 
+plunge	trend
+-5	12
+-1	17
+-10	9
+8	342
+// 31	348
+0	12
+8	0
+-7	4
+-13	2
+5	4
+-7	4
+5	13
+-1	2
+-12	353
+11	350
+3	9
+15	355
+3	344
+// -13	329
+0	2
+-9	359
+0	12
+-11	10
+-13	14
+0	12
+1	13
+3	353
+10	3
+12	4
+15	347
+-6	2
+-13	7
+-17	354
+25	4
+0	4

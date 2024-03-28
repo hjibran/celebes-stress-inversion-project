@@ -1,0 +1,73 @@
+// From: Jonathan Saul Caine, 2001. Fracture Network, Fault Zone, and 
+// Geologic Data Collected from the Turkey Creek Watershed, Colorado Rocky 
+// Mountain Front Range.U.S. Geological Survey, Denver, CO Open 
+// File Report 01-416.
+//
+// TURKEY CREEK WATERSHED FRACTURED BEDROCK AQUIFER CHARACTERIZATION: 
+// RAW FRACTURE AND GEOLOGIC DATA 
+// 285 SOUTH OUTCROPS 
+// LOCATION: 4385015 North, 481295 East 
+//  (39 36 59.64 North Latitude, 105 13 04.47 West Longitude) 
+// ELEVATION: 6800 Feet SCAN LINE NUMBER: SL 1 285 S
+// PHYSICAL LOCATION: US 285, Mid Turkey Creek Canyon, under power lines on 
+//  south side of highway.
+// SCAN LINE ORIENT: 00/347
+// FACE ORIENT: 347/36 e
+// MEASUREMENT DIR: s to n (horizontal)
+// LITHOLOGY: Xm / f-spar, qtz, bio foliated and ptygmatically folded gneiss
+// FIELD BOOK / PAGE: 1 / p. 96
+// DATE and TIME OUT: 9.24.99 8:30am to 5pm
+// MEASURURE: JSC
+// RECORDER: JL ST SC
+// COMMENTS / NOTES: fractures < 3 cm censored
+// PHOTO(S): R8N F15 orient termination 
+// num	postion (m)	strike	dip dir	TL (m)	top	bot	min	notes
+ID	Type	position	Strike	Dip	Weight	top	bot	min	Notes	Trend	Plunge
+01	J	0.00	90	86 s	3.70	trnk	tip	none	pl, r, <1mm 
+02	J	0.48	99	88 s	3.24	tip to step	tip	none	pl, r, <1mm
+03	J	0.89	103	87 s	2.19	tip	tip to step	none	sl cp, r, <1mm 
+04	J	0.98	252	23 n	0.60	tip	tip	none	sl cp, r, <1mm 
+05	J	1.22	253	33 n	1.00	tip	tip	none	sl cp, r, <1mm 
+06	J	1.44	262	35 n	1.97	trnk	cov	none	sl cp, r, <1mm 
+07	J	1.52	102	81 s	2.00	trnk	cov	none	sl cp, r, <1mm 
+08	J	1.57	262	34 n	0.90	trnk	cov	none	sl cp, r, <1mm 
+09	J	1.80	254	37 n	2.00	trnk	cov	none	sl cp, r, <1mm 
+10	J	1.79	93	32 s	0.66	tip	tip	none	cp, v r, fol || 
+11	J	1.99	109	87 s	1.17	cov	cov	none	sl cp, r, <1mm 166 62 w 1.77 tip tip none sl cp, r, <1mm, SL || 
+12	J	2.13	267	34 n	1.14	trnk	trnk	none	sl cp, r, <1mm 
+13	J	2.27	49	69 s	0.41	cov	cov	none	
+14	J	2.54	261	32 n	0.93	cov	cov	none	sl cp, r, <1mm 89 47 s fol 
+15	J	2.64	260	30 n	0.70	tip	cov	none	cp, r 
+16	J	2.91	279	90	1.24	tip	tip		fe stain sl cp, r, <1mm 
+17	J	3.13	265	40 n	1.28	cov	cov		107 23 s fol 
+18	J	3.27	257	46 n	0.50	tip	cov		
+19	J	3.32	60	52 s	0.40	tip	tip	none	sl cp 
+20	J	3.59	105	90	3.38	tip	tip	none	sl cp 
+21	J	3.85	96	87 s	2.10	trnk	tip	none	sl cp, stpd BREAK IN SL sl skip to 5m, peg dike @ 5.2 to 5.4m cut by fracs 
+22	J	5.62	51	55 s	0.50	cov	cov	none	sl cp 
+23	J	5.55	142	17 w	1.05	tip	tip	none	sl cp 
+24	J	6.00	49	55 s	1.42	tip	tip	none	sl cp 
+25	J	6.02	262	52 n	0.50	tip	tip	none	sl cp, r 
+26	J	6.29	61	50 s	0.40	tip	tip	none	sl cp 
+27	J	6.40	263	32 n	0.89	trnk	tip	none	sl cp, r 
+28	J	6.37	264	30 n	2.10	tip	tip	none	sl cp, r 
+29	J	7.20	247	30 n	1.70	tip	trnk	none	sl cp 
+30	J	7.79	105	30 s	6.8	trnk	trnk	none	jnt zone 117 4 3 s fol 
+31	J	8.50	255	26 n	2.00	tip	tip?	none	cp, r 
+32	J	9.26	54	8 s	4.00	trnk	tip	none	cp, stpd 
+33	J	9.58	117	82 s	0.48	trnk	trnk	none	sl cp 
+34	J	10.23	267	90	3.84	tip to stp	tip	none	cp, stpd 
+35	J	10.67	65	44 s	1.24	trnk	trnk	none	sl cp, vr 
+36	J	10.57	82	21 s	1.04	tip	trnk	none	pl, r 
+37	J	11.09	84	21 s	3.56	trnk	trnk	none	sl cp, r 
+38	J	11.33	111	32 s	0.94	trnk	tip	none	sl cp 
+39	J	11.57	98	86 s	2.44	tip	tip	none	sl cp, stpd 
+40	J	12.25	113	12 s	4.50	tip	tip	none	cp, vr 
+41	J	12.99	89	83 s	2.15	tip	tip	none	pl, r 
+42	J	13.42	81	86 s	2.78	tip	tip	none	sl cp, r 
+43	J	13.79	120	14 s	1.22	trnk	trnk	none	sl cp, r
+44	J	14.20	256	44 n	2.00	cov	tip	none	sl cp, r 
+45	J	14.68	91	73 s	3.50	trnk	tip	none	cp, vr 
+46	J	14.90	112	24 s	0.55	tip	tip	none	sl cp, stpd 
+47	J	15.08	92	80 s	1.95	trnk	cov	none	sl cp 80 32 sfol, many dm scale folds Note; small cliff to south sl face || fracs w spacing ~2-3 m and ~TL's 4-5 m. END
+48	SL									347	00

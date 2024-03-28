@@ -1,0 +1,48 @@
+//			
+// Example data file for Orient 3 (Vollmer, 2016)			
+//			
+// Measurements of the direction of magnetization in specimens from the Great Whin Sill			
+// Creer, Irving, and Nairn, 1959, in Fisher, et al., 1987, Appendix B9 p. 289).			
+// 			
+// Creer, K.M., Irving, E., and Nairn, A.E.M., 1959. Paleomagnetism of the Great Whin 			
+// Sill. Geophysical Journal of the Royal Astronomical Society, v. 2, p. 306-323. 			
+//			
+// Fisher, N.I., Lewis, T.I., and Embleton, B.J.J., 1987. Statistical Analysis of 			
+// Spherical Data (with errata 2000). Cambridge University Press, 329 p.			
+//			
+// -------------------------------------------------------------------------------------			
+ID	Dec	Inc	Type
+1	176	-10	Paleomag
+2	185	-6	Paleomag
+3	196	-5	Paleomag
+4	179	-4	Paleomag
+5	186	-5	Paleomag
+6	192	3	Paleomag
+7	183	-1	Paleomag
+8	203	-11	Paleomag
+9	193	-28	Paleomag
+10	171	-14	Paleomag
+11	191	-14	Paleomag
+12	190	-20	Paleomag
+13	187	-15	Paleomag
+14	203	-26	Paleomag
+15	196	-19	Paleomag
+16	205	6	Paleomag
+17	182	9	Paleomag
+18	190	-13	Paleomag
+19	183	1	Paleomag
+20	190	15	Paleomag
+21	183	7	Paleomag
+22	179	11	Paleomag
+23	190	13	Paleomag
+24	177	-10	Paleomag
+25	195	11	Paleomag
+26	182	11	Paleomag
+27	182	7	Paleomag
+28	190	-15	Paleomag
+29	183	-20	Paleomag
+30	194	-7	Paleomag
+31	186	-6	Paleomag
+32	192	-9	Paleomag
+33	192	0	Paleomag
+34	180	0	Paleomag

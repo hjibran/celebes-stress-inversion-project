@@ -1,0 +1,59 @@
+//
+// Example data file for Orient 3 (Vollmer, 2015)
+//
+// Median joint strikes in central New York from Parker, 1942
+//
+// Parker, J.M., 1942. Regional systematic jointing in slightly deformed sedimentary rocks.
+// Geological Society of America Bulletin, v. 53, p. 381-408.
+//
+// J1 = median of J1W and J1E
+// --------------------------------------------
+Station	Strike	Type
+Albany	N14E	J1
+Coxsackie	N24E	J1
+Catskill	N18E	J1
+Rhinebeck	N18E	J1
+Berne	N17E	J1
+Durham	N13E	J1
+Schoharie	N25E	J1
+Richmondville	N0E	J1
+Richfield Springs	N5E	J1
+Cooperstown	N11E	J1
+Andes	N2W	J1
+Winfield	N5E	J1
+Oneonta	N10E	J1
+Unadilla	N12E	J1
+Oxford	N12E	J1
+Binghamton	N2E	J1
+Apalachin	N4W	J1
+Drydin	N6W	J1
+Owego	N10W	J1
+Towanda	N10W	J1
+Ithica	N10W	J1
+Waverly	N21W	J1
+Sayre	N20W	J1
+Elmira	N26W	J1
+Albany	N45W	J2
+Coxsackie	N70W	J2
+Catskill	N75W	J2
+Rhinebeck	N71W	J2
+Berne	N67W	J2
+Durham	N50W	J2
+Schoharie	N85W	J2
+Richmondville	N55W	J2
+Richfield Springs	N85E	J2
+Cooperstown	N86E	J2
+Andes	N88E	J2
+Winfield	N77E	J2
+Oneonta	N80W	J2
+Unadilla	N82W	J2
+Oxford	N71W	J2
+Binghamton	N78W	J2
+Apalachin	N87E	J2
+Drydin	N85W	J2
+Owego	N90E	J2
+Towanda	N84E	J2
+Ithica	N90E	J2
+Waverly	N78E	J2
+Sayre	N80E	J2
+Elmira	N70E	J2

@@ -1,0 +1,22 @@
+// 
+// Example file for Orient 3 (Vollmer, 2015)
+// Latitude and longitude formated as map data
+//
+// Simulated data to illustrate Google Maps and Google Earth integration
+// Location: Mohonk Preserve, New Paltz, NY
+// 
+// This data is formated as D M S, D M, and D are also supported.
+// D M S are separated by spaces ' ', degree, min ('), sec (") symbols are optional.
+// N, S, E, W are optional, and used only for unsigned values.
+// 
+// -------------------------------------------------------------------------------------
+Latitude	Longitude	Elevation	Strike	Dip	Trend	Plunge	Type	Comment
+41 45 48.82 N	74 09 21.38 W	470						Sky Top - nice view!
+41 45 49.62 N	74 09 22.29 W	472	20	10			S0	Bedding
+41 45 48.06 N	74 09 22.24 W	463	35	15			S0	Ripple marks
+41 45 46.93 N	74 09 22.43 W	453	10	25			S0	Cross beds younging upward
+41 45 47.02 N	74 09 22.92 W	453	160	60			S1	Weak solution cleavage
+41 45 47.29 N	74 09 22.94 W	451	200	75			J	Possible Acadian joint set
+41 45 46.74 N	74 09 22.16 W	453			160	30	L	Slickenside striations
+41 45 47.81 N	74 09 23.50 W	459	210	80			J	Possible Acadian joint set
+41 45 46.95 N	74 09 22.03 W	455			150	25	L	Slickenside striations
