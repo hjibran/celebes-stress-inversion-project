@@ -65,7 +65,7 @@ def bootstrap(sample, iteration):
         means.append(mean)
     return(means)    
 
-def histrogram(sample, bin):
+def histogram(sample, bin):
     import matplotlib.pyplot as plt
     import numpy as np
 
@@ -85,4 +85,4 @@ rerata = bootstrap(contoh,10000)
 mean, CI = ci.confidence_interval(contoh)
 print('{:.3f} +_ {:.3f}'.format(mean, CI))
 
-histrogram(contoh,25)
+#histogram(contoh,25)

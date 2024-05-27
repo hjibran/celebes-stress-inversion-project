@@ -17,7 +17,7 @@ if not strinv_dir in sys.path:
 
 file_path = "/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Data/West_Bohemia_mechanisms.dat"
 
-cekbootstrap = str(input("Bootstrap[y/n]: "))
+cekbootstrap = "y" # str(input("Bootstrap[y/n]: "))
 if  cekbootstrap == "y":
     Bootstrap = True
 elif cekbootstrap == "n":
@@ -200,12 +200,14 @@ max_shape_ratio_error = np.max(np.abs(shape_ratio_error_statistics))
 # ------------------------------------------------
 import scipy.io as sio
 import confidence_interval as ci
+import bootstrap as bs
 
 #if Bootstrap:
 #    direction_sigma_1[0], ci_azimuth_1 = ci.confidence_interval(sigma_1_azimut_distribution)
 print (sigma_1_azimut_distribution)
 print(ci.confidence_interval(sigma_1_azimut_distribution))
 
+bs.histogram(sigma_1_azimut_distribution, 25)
 
 sigma_1 = {'azimuth': '{:.3f}'.format(direction_sigma_1[0]), 'plunge': '{:.3f}'.format(direction_sigma_1[1]) }
 sigma_2 = {'azimuth': '{:.3f}'.format(direction_sigma_2[0]), 'plunge': '{:.3f}'.format(direction_sigma_2[1]) }
