@@ -10,7 +10,7 @@ import os,sys
 import matplotlib.pyplot as plt
 import types
 from random import choice
-np.random.seed(42)
+np.random.seed(3)
 strinv_dir = '/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Programs_PYTHON'
 if not strinv_dir in sys.path:
     sys.path.append(strinv_dir)
@@ -126,7 +126,8 @@ sigma_vector_3_directions = np.zeros((2,N_noise_realizations))
 idxs = [i for i in range(len(strike_orig_1))]
 for i in range(N_noise_realizations):
     if Bootstrap:
-        idxs_boot = np.array([choice(idxs) for i in range(len(strike_orig_1))])
+        #idxs_boot = np.array([choice(idxs) for i in range(len(strike_orig_1))])
+        idxs_boot = np.array([np.random.randint(0, len(strike_orig_1)) for i in range(len(strike_orig_1))])
         strike1 = strike_orig_1[idxs_boot]
         dip1    = dip_orig_1[idxs_boot]
         rake1   = rake_orig_1[idxs_boot]
@@ -217,7 +218,7 @@ ci.histogram(sigma_1_azimut_distribution,
                 sigma_3_azimut_distribution, 
                 sigma_3_plunge_distribution, 
                 25)
-
+print(sigma_2_azimut_distribution)
 
 sigma_1 = {'azimuth': '{:.3f}'.format(direction_sigma_1[0]), 'plunge': '{:.3f}'.format(direction_sigma_1[1]) }
 sigma_2 = {'azimuth': '{:.3f}'.format(direction_sigma_2[0]), 'plunge': '{:.3f}'.format(direction_sigma_2[1]) }
