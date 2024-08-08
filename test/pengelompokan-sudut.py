@@ -66,3 +66,21 @@ y = np.linspace(0,30)
 x = [conint for i in y]
 plt.plot(x,y)
 plt.show()
+
+def rad_360(data):
+    radians = np.linspace(0, ((2*np.pi)-(np.pi/180)), 360)
+    tinggi = []
+    for i in range(360):
+        if i == 0:
+            temp1 = [x for x in data if x < 0.5]
+            temp2 = [x for x in data if 359.5 < x]
+            n = len(temp1)+len(temp2)
+        else:
+            temp = [x for x in data if i-0.5 < x < i+0.5]
+            n = len(temp)
+        tinggi.append(n)
+    ax = plt.subplot(projection='polar')
+    ax.bar(radians, tinggi, width = np.pi/180)
+
+rad_360(result)
+plt.show()

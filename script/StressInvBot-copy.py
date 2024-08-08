@@ -5,17 +5,34 @@
 #  list of input parameters needed for the inversion                      #
 #                                                                         #
 #*************************************************************************#
+'''
+import sys
+cluster = int(sys.argv[1])
+seed = int(sys.argv[2])
+
+'''
+
+cluster = 9
+seed = 3
+print("Cluster {}\nSeed = {}\n".format(cluster, seed))
+
+
 import numpy as np
 import os,sys
 import matplotlib.pyplot as plt
 import types
 from random import choice
-np.random.seed(3)
+np.random.seed(seed)
+
 strinv_dir = '/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Programs_PYTHON'
 if not strinv_dir in sys.path:
     sys.path.append(strinv_dir)
+    
+strinv_dir = '/mnt/d/celebes-stress-inversion-project/script'
+if not strinv_dir in sys.path:
+    sys.path.append(strinv_dir)
 
-file_path = "/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15/stressinverse/data/cls6.dat"
+file_path = "/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15/stressinverse/data/cls{}.dat".format(cluster)
 
 cekbootstrap = "y" # str(input("Bootstrap[y/n]: "))
 if  cekbootstrap == "y":
@@ -201,50 +218,89 @@ max_shape_ratio_error = np.max(np.abs(shape_ratio_error_statistics))
 # ------------------------------------------------
 import scipy.io as sio
 import confidence_interval as ci
+import function as fu
+
+
+print("Sigma 1")
+sigma_1_azimut_distribution, temp_a1 = fu.unifying_direction(sigma_1_azimut_distribution)
+print("Azimut: {}; Percentil: {}".format(ci.confidence_interval(temp_a1), fu.percentil(temp_a1)))
+print("Plunge: {}; Percentil: {}".format(ci.confidence_interval(sigma_1_plunge_distribution), np.percentile(sigma_1_plunge_distribution, [2.5, 97.5])))
+ci.histo(temp_a1, sigma_1_plunge_distribution, 25)
+
+print("Sigma 2")
+sigma_2_azimut_distribution, temp_a2 = fu.unifying_direction(sigma_2_azimut_distribution)
+print("Azimut: {}; Percentil: {}".format(ci.confidence_interval(temp_a2), fu.percentil(temp_a2)))
+print("Plunge: {}; Percentil: {}".format(ci.confidence_interval(sigma_2_plunge_distribution), np.percentile(sigma_2_plunge_distribution, [2.5, 97.5])))
+ci.histo(temp_a2, sigma_2_plunge_distribution, 25)
+
+print("Sigma 3")
+sigma_3_azimut_distribution, temp_a3 = fu.unifying_direction(sigma_3_azimut_distribution)
+print("Azimut: {}; Percentil: {}".format(ci.confidence_interval(temp_a3), fu.percentil(temp_a3)))
+print("Plunge: {}; Percentil: {}".format(ci.confidence_interval(sigma_3_plunge_distribution), np.percentile(sigma_3_plunge_distribution, [2.5, 97.5])))
+ci.histo(temp_a3, sigma_3_plunge_distribution, 25)
+
+print("Shape Ratio")
+print("Shape Ratio: {}; Percentil: {}".format(ci.confidence_interval(shape_ratio_statistics), np.percentile(shape_ratio_statistics, [2.5, 97.5])))
+ci.hist(shape_ratio_statistics, 25)
+
+'''
+
+sigma_1_azimut_distribution, temp_a1 = fu.unifying_direction(sigma_1_azimut_distribution)
+sigma_2_azimut_distribution, temp_a2 = fu.unifying_direction(sigma_2_azimut_distribution)
+sigma_3_azimut_distribution, temp_a3 = fu.unifying_direction(sigma_3_azimut_distribution)
+
+azim1 = ci.confidence_interval(temp_a1)
+plun1 = ci.confidence_interval(sigma_1_plunge_distribution)
+azim2 = ci.confidence_interval(temp_a2)
+plun2 = ci.confidence_interval(sigma_2_plunge_distribution)
+azim3 = ci.confidence_interval(temp_a3)
+plun3 = ci.confidence_interval(sigma_3_plunge_distribution)
+shpr = ci.confidence_interval(shape_ratio_statistics)
+
+print("{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}".format(seed, azim1[0], azim1[1], plun1[0], plun1[1], 
+                                    azim2[0], azim2[1], plun2[0], plun2[1], 
+                                    azim3[0], azim3[1], plun3[0], plun3[1], 
+                                    shpr[0], shpr[1]))
+
+'''
 
 #if Bootstrap:
 #    direction_sigma_1[0], ci_azimuth_1 = ci.confidence_interval(sigma_1_azimut_distribution)
-print(ci.confidence_interval(sigma_1_azimut_distribution))
-print(ci.confidence_interval(sigma_1_plunge_distribution))
-print(ci.confidence_interval(sigma_2_azimut_distribution))
-print(ci.confidence_interval(sigma_2_plunge_distribution))
-print(ci.confidence_interval(sigma_3_azimut_distribution))
-print(ci.confidence_interval(sigma_3_plunge_distribution))
 
-ci.histogram(sigma_1_azimut_distribution, 
-                sigma_1_plunge_distribution, 
-                sigma_2_azimut_distribution, 
-                sigma_2_plunge_distribution, 
-                sigma_3_azimut_distribution, 
-                sigma_3_plunge_distribution, 
-                25)
-print(sigma_2_azimut_distribution)
-
-sigma_1 = {'azimuth': '{:.3f}'.format(direction_sigma_1[0]), 'plunge': '{:.3f}'.format(direction_sigma_1[1]) }
-sigma_2 = {'azimuth': '{:.3f}'.format(direction_sigma_2[0]), 'plunge': '{:.3f}'.format(direction_sigma_2[1]) }
-sigma_3 = {'azimuth': '{:.3f}'.format(direction_sigma_3[0]), 'plunge': '{:.3f}'.format(direction_sigma_3[1]) }
+#ci.histogram(sigma_1_azimut_distribution, 
+#                sigma_1_plunge_distribution, 
+#                sigma_2_azimut_distribution, 
+#                sigma_2_plunge_distribution, 
+#                sigma_3_azimut_distribution, 
+#                sigma_3_plunge_distribution, 
+#                25)
 
 
-sigma_1_data = np.transpose(np.array([direction_sigma_1[0], direction_sigma_1[1]]))
-sigma_2_data = np.transpose(np.array([direction_sigma_2[0], direction_sigma_2[1]]))
-sigma_3_data = np.transpose(np.array([direction_sigma_3[0], direction_sigma_3[1]]))
+'''
+#sigma_1 = {'azimuth': '{:.3f}'.format(direction_sigma_1[0]), 'plunge': '{:.3f}'.format(direction_sigma_1[1]) }
+#sigma_2 = {'azimuth': '{:.3f}'.format(direction_sigma_2[0]), 'plunge': '{:.3f}'.format(direction_sigma_2[1]) }
+#sigma_3 = {'azimuth': '{:.3f}'.format(direction_sigma_3[0]), 'plunge': '{:.3f}'.format(direction_sigma_3[1]) }
 
-mechanisms = {'strike': strike, 'dip': dip, 'rake': rake, }
 
-mechanisms_data = np.transpose(np.array([strike, dip, rake]))
-principal_mechanisms_data = np.transpose(np.array([principal_strike, principal_dip, principal_rake]))
+#sigma_1_data = np.transpose(np.array([direction_sigma_1[0], direction_sigma_1[1]]))
+#sigma_2_data = np.transpose(np.array([direction_sigma_2[0], direction_sigma_2[1]]))
+#sigma_3_data = np.transpose(np.array([direction_sigma_3[0], direction_sigma_3[1]]))
 
-principal_mechanisms = {'strike': principal_strike, 'dip': principal_dip, 'rake': principal_rake, }
+#mechanisms = {'strike': strike, 'dip': dip, 'rake': rake, }
+
+#mechanisms_data = np.transpose(np.array([strike, dip, rake]))
+#principal_mechanisms_data = np.transpose(np.array([principal_strike, principal_dip, principal_rake]))
+
+#principal_mechanisms = {'strike': principal_strike, 'dip': principal_dip, 'rake': principal_rake, }
 
 #np.savez(output_file_sts,s1=sigma_vector_1_statistics,
 #           s2=sigma_vector_2_statistics,s3=sigma_vector_3_statistics,
 #            shp=shape_ratio_statistics)
 
-
 #np.savez(output_file_drs,s1=sigma_vector_1_directions,
 #            s2=sigma_vector_2_directions,s3=sigma_vector_3_directions,
 #            shp=shape_ratio_statistics)
+'''
 
-#print(sigma_1)
-#print(sigma_2)
-#print(sigma_3)
+#import plot_stress as plots
+#plots.plot_stress(tau_optimum,strike,dip,rake,"/mnt/d/celebes-stress-inversion-project/test/stress{}".format(cluster))

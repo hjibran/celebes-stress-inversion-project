@@ -3,9 +3,7 @@ import scipy.io
 import pandas as pd
 import numpy as np
 
-kelas = 9
-
-mat = scipy.io.loadmat("Result/stressinversewithbootstrap/kelas9/output.mat")#input("Masukkan path file mat yang ingin dilihat:\n"))
+mat = scipy.io.loadmat("/mnt/d/celebes-stress-inversion-project/Result/stressinversewithbootstrap/kelas9/output.mat")#input("Masukkan path file mat yang ingin dilihat:\n"))
 
 shape_ratio= mat['shape_ratio'][0][0]
 sigma1 = np.array([1, mat['sigma_1'][0][0][0][0][0], mat['sigma_1'][0][0][1][0][0]])

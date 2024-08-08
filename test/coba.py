@@ -126,10 +126,11 @@ def rad_32():
 def histo(list):
     plt.hist(list, bins = 25)
 
-histo(data)
-histo(data1)
-rad_360()
-
 print(len(data), len(data1))
 
+histo(data)
+plt.show()
+rad_360()
+plt.show()
+histo(data1)
 plt.show()

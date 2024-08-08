@@ -6,7 +6,7 @@ import os
 import sys
 import re
 import pygmt
-eps = 0.40
+eps = 0.45
 min = 15
 
 data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/data/siap-olah/fm50km7mw.csv") #data-tanpa-laut-maluku.csv")
