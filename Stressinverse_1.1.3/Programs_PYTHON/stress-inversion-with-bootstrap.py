@@ -1,0 +1,297 @@
+#!/home/haidir/celebes-stress-inversion-project/bin/python3
+
+"""
+    This is the python code to run the modified Stressinversion
+    by Vavricuk to calculate the error with bootstrap instead of
+    the method given by him. furthermore, this code also runs 
+    the SHmax calculation performed by Taufiq Rafie 2021.
+
+    This code was created by Haidir Jibran for his final project 
+    as a Geophysics student at Hasanuddin University.
+"""
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+# ========================================================================================
+# ------------------------------------------------
+# input parameter
+# ------------------------------------------------
+#output option
+    # export output: 1
+    # print  output: 2
+output = 2
+
+# path to file input, file output, and seed (to initialize random bootstrap)
+input_file = r"../Data/West_Bohemia_mechanisms.dat"
+output_file = r"../Output/output"
+seed = 0
+
+# plot option
+    # plot with plt.show(): 1
+    # save to picture file: 2
+    #  don't plot anything: 3
+plot = 1
+
+# number of random bootstrap
+N_bootstrap = 250
+
+# ----------------------------------------------------------------------------------------
+# advance control parameter(usually not needed to be changed)
+# number of iterations of the stress inversion 
+N_iterations = 6
+
+# number of initial stres inversions with random choice of faults
+N_realizations = 10
+
+# axis of the histogram of the shape ratio
+shape_ratio_axis = np.arange(0+0.0125, 1, 0.025)
+ 
+# interval for friction values
+friction_min  = 0.40
+friction_max  = 1.00
+friction_step = 0.05
+
+
+# ========================================================================================
+# ------------------------------------------------
+# make stress inversion function
+# ------------------------------------------------
+def run(str1,dip1,rak1,str2,dip2,rak2,
+        friction_min=friction_min,friction_max=friction_max,friction_step=friction_step,
+        N_iterations=N_iterations,N_realizations=N_realizations):
+    
+    # ----------------------------------------------------------------------------------------
+    # inversion for stress
+    import stress_inversion as si
+    tau_optimum,shape_ratio,strike,dip,rake,instability,friction = si.stress_inversion(
+        str1,dip1,rak1,str2,dip2,rak2,
+        friction_min,friction_max,friction_step,N_iterations,N_realizations) 
+    
+    # return the component of tau
+    t11 = tau_optimum[0][0]
+    t12 = tau_optimum[0][1]
+    t13 = tau_optimum[0][2]
+    t22 = tau_optimum[1][1]
+    t23 = tau_optimum[1][2]
+    t33 = tau_optimum[2][2]
+
+    # ----------------------------------------------------------------------------------------
+    # optimum principal stress axes
+    import azimuth_plunge as ap
+    diag_tensor, vector = np.linalg.eig(tau_optimum)
+
+    value = [diag_tensor[0], diag_tensor[1], diag_tensor[2]]
+    value_sorted = np.sort(value)
+    j = np.argsort(value)
+
+    sigma_vector_1_optimum  = np.array(vector[:,j[0]])
+    sigma_vector_2_optimum  = np.array(vector[:,j[1]])
+    sigma_vector_3_optimum  = np.array(vector[:,j[2]])
+
+    direction_sigma_1, direction_sigma_2, direction_sigma_3 = ap.azimuth_plunge(tau_optimum)
+    sg1_azm = direction_sigma_1[0]
+    sg1_pln  = direction_sigma_1[1]
+    sg2_azm = direction_sigma_2[0]
+    sg2_pln  = direction_sigma_2[1]
+    sg3_azm = direction_sigma_3[0]
+    sg3_pln  = direction_sigma_3[1]
+
+    # ----------------------------------------------------------------------------------------
+    # SHmax
+    import SHmax_calc as sh
+    shmax = sh.shmax_dir(sg1_azm,sg1_pln,sg2_azm,sg2_pln,shape_ratio,True)
+
+    # ----------------------------------------------------------------------------------------
+    # slip deviations
+    import slip_deviation as sd
+    slip_deviation_1, slip_deviation_2 = sd.slip_deviation(tau_optimum,strike,dip,rake)
+
+    # ----------------------------------------------------------------------------------------
+    # principal focal mechanism
+    import principal_mechanisms as pm
+    principal_strike, principal_dip, principal_rake = pm.principal_mechanisms(sigma_vector_1_optimum,sigma_vector_3_optimum,friction)
+
+    # ----------------------------------------------------------------------------------------
+    # return the value
+    return t11, t12, t13, t22, t23, t33,\
+            sg1_azm, sg1_pln, sg2_azm, sg2_pln, sg3_azm, sg3_pln,\
+            shape_ratio, friction[0], shmax,\
+            principal_strike[0], principal_dip[0], principal_rake[0],\
+            principal_strike[1], principal_dip[1], principal_rake[1]
+
+
+# ========================================================================================
+# ------------------------------------------------
+# reading input data
+# ------------------------------------------------
+# focal mechanism
+import read_mechanism as rm
+or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2 = rm.read_mechanisms(input_file)
+
+
+# ========================================================================================
+# ------------------------------------------------
+# run stress inversion
+# ------------------------------------------------
+# origin data
+# make function
+def orgn(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
+    import pandas as pd
+    import numpy as np
+
+    # run the stress inversion with origin data
+    org = np.zeros((2, 21))
+    org[0][0], org[0][1], org[0][2], org[0][3],\
+        org[0][4], org[0][5], org[0][6], org[0][7],\
+        org[0][8], org[0][9], org[0][10], org[0][11],\
+        org[0][12], org[0][13], org[0][14], org[0][15],\
+        org[0][16], org[0][17], org[0][18], org[0][19],\
+        org[0][20] = run(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2)
+
+    # make a data frame for stress inversion output
+    origin = pd.DataFrame(org, columns=["tau11", "tau12", "tau13", "tau22", "tau23", "tau33",
+        "azimuth sigma 1", "plunge sigma 1", "azimuth sigma 2",
+        "plunge sigma 2", "azimuth sigma 3", "plunge sigma 3",
+        "shape ratio", "friction", "SHmax",
+        "principal strike 1", "principal dip 1", "principal rake 1",
+        "principal strike 2", "principal dip 2", "principal rake 2"])
+
+    # return the data frame
+    return origin
+origin = orgn(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2)
+
+# ----------------------------------------------------------------------------------------
+# data with bootstrap
+# make function
+def btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
+    import numpy as np
+    import pandas as pd
+    from random import choice
+    np.random.seed(seed)
+
+    # make bootstrap data
+    boots = np.zeros((N_bootstrap, 21))
+    idxs = [i for i in range(len(or_str1))]
+    for i in range(N_bootstrap):
+        idxs_boot = np.array([np.random.randint(0, len(or_str1)) for i in range(len(or_str1))])
+        bt_str1 = or_str1[idxs_boot]
+        bt_dip1 = or_dip1[idxs_boot]
+        bt_rak1 = or_rak1[idxs_boot]
+        bt_str2 = or_str2[idxs_boot]
+        bt_dip2 = or_dip2[idxs_boot]
+        bt_rak2 = or_rak2[idxs_boot]
+
+        # run the stress inversion with origin data
+        boots[i][0], boots[i][1], boots[i][2], boots[i][3],\
+            boots[i][4], boots[i][5], boots[i][6], boots[i][7],\
+            boots[i][8], boots[i][9], boots[i][10], boots[i][11],\
+            boots[i][12], boots[i][13], boots[i][14], boots[i][15],\
+            boots[i][16], boots[i][17], boots[i][18], boots[i][19],\
+            boots[i][20] = run(bt_str1,bt_dip1,bt_rak1,bt_str2,bt_dip2,bt_rak2)
+
+    # make a data frame for stress inversion output
+    bootstrap = pd.DataFrame(boots, columns=["tau11", "tau12", "tau13", "tau22", "tau23", "tau33",
+        "azimuth sigma 1", "plunge sigma 1", "azimuth sigma 2",
+        "plunge sigma 2", "azimuth sigma 3", "plunge sigma 3",
+        "shape ratio", "friction", "SHmax",
+        "principal strike 1", "principal dip 1", "principal rake 1",
+        "principal strike 2", "principal dip 2", "principal rake 2"])
+    
+    # return the data frame
+    return bootstrap
+bootstrap = btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2)
+
+
+# ========================================================================================
+# ------------------------------------------------
+# save result
+# ------------------------------------------------
+# make function
+def confidence_data(data):
+    import numpy as np
+    import unify_direction as ud
+    
+    dat, tempo = ud.unifying_direction(data)
+
+    # calculate error
+    mean_of_all_data = np.mean(tempo)
+    stdev = np.std(tempo)
+    percentil = ud.percentil(tempo)
+    half_of_95_percentil = np.float64((np.percentile(tempo, 97.5)-np.percentile(tempo, 2.5))/2)
+    data_in_percentil_range = [x for x in tempo if percentil[0] <= x <= percentil[1]]
+    mean_of_ci95_data = np.mean(data_in_percentil_range)
+    stdev_of_ci95 = np.std(data_in_percentil_range)
+    result = pd.DataFrame(np.array([[mean_of_all_data, stdev, mean_of_ci95_data, stdev_of_ci95, np.float64(percentil[0]), np.float64(percentil[1]), half_of_95_percentil]]),
+                            columns=["mean of all data","stdev","mean of ci95 data","stdev of ci95","2.5%","97.5%","half width 95% percentil"])
+    return result
+
+# store error to data frame
+error = pd.concat([confidence_data(bootstrap["azimuth sigma 1"]), confidence_data(bootstrap["plunge sigma 1"]), 
+                   confidence_data(bootstrap["azimuth sigma 2"]), confidence_data(bootstrap["plunge sigma 2"]), 
+                   confidence_data(bootstrap["azimuth sigma 3"]), confidence_data(bootstrap["plunge sigma 3"]), 
+                   confidence_data(bootstrap["SHmax"]), confidence_data(bootstrap["shape ratio"])])
+
+if output == 1:
+    # export to csv
+    origin.drop([1]).to_csv(output_file + "_origin.csv", index=False)
+    bootstrap.to_csv(output_file + "_bootstarap.csv", index=False)
+    error.insert(0, "value", ["Sigma1 Azimuth", "Sigma1 Plunge",\
+                            "Sigma2 Azimuth", "Sigma2 Plunge",\
+                            "Sigma3 Azimuth", "Sigma3 Plunge",\
+                            "SHmax", "Shape Ratio"])
+    error.to_csv(output_file + "_error.csv", index=False)
+elif output == 2:
+    print(origin.drop([1]))
+    print(bootstrap)
+    print(error)
+elif output == 3:
+    pass
+else:
+    print("You don't define the output option")
+
+# ========================================================================================
+# ------------------------------------------------
+# plot result
+# ------------------------------------------------
+# make function
+def histo(title, data, plot, bin = 25):
+    import statistics as sts
+    import unify_direction as ud
+
+    result, tempo = ud.unifying_direction(data)
+
+    #bin: 
+    # "az" for azimuth or SHmax, 
+    # "pl" for plunge, and 
+    # "sr" for shape ratio
+    mode = sts.mode(data)
+    if bin == "az":
+        bin = np.arange(mode-90, mode+90, 2)
+    elif bin == "pl":
+        bin = np.arange(0, 90, 1)
+    elif bin == "sr":
+        bin = np.arange(0+0.0125, 1, 0.025)
+    
+    if plot == 3:
+        pass
+    else:
+        pltHist, axH = plt.subplots()
+        n, bins, patches = axH.hist(x = tempo, bins = bin, color='#0504aa', alpha = 0.7, rwidth=0.85)
+        axH.set_title(title, fontsize = 14)
+        axH.grid(True)
+        if plot == 1:
+            plt.show()
+        elif plot == 2:
+            plt.savefig("Coba")
+
+histo("Azimuth Sigma 1", bootstrap["azimuth sigma 1"], plot, "az")
+histo("Plunge sigma 1", bootstrap["plunge sigma 1"], plot, "pl")
+histo("Azimuth Sigma 2", bootstrap["azimuth sigma 2"], plot, "az")
+histo("Plunge sigma 2", bootstrap["plunge sigma 2"], plot, "pl")
+histo("Azimuth Sigma 3", bootstrap["azimuth sigma 3"], plot, "az")
+histo("Plunge sigma 3", bootstrap["plunge sigma 3"], plot, "pl")
+histo("SHmax", bootstrap["SHmax"], plot, "az")
+histo("Shape Ratio", bootstrap["shape ratio"], plot, "sr")
