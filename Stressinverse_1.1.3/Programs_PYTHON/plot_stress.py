@@ -169,11 +169,11 @@ def plot_P_T_axes(strike,dip,rake):
 #         focal mechanisms (for plotting the P/T axes)                    #
 #                                                                         #
 #*************************************************************************#
-def plot_stress(tau,strike,dip,rake,plot_file):
+def plot_stress(tau,strike,dip,rake,plot):
     
     import matplotlib.pyplot as plt
     import numpy as np
-
+    """
     direction_sigma_1, direction_sigma_2, direction_sigma_3 = azimuth_plunge(tau)
     
     azimuth_sigma_1 = direction_sigma_1[0]; plunge_sigma_1 = direction_sigma_1[1]; 
@@ -183,7 +183,7 @@ def plot_stress(tau,strike,dip,rake,plot_file):
     theta_sigma_1 = 90-plunge_sigma_1
     theta_sigma_2 = 90-plunge_sigma_2
     theta_sigma_3 = 90-plunge_sigma_3
-    
+    """
     #--------------------------------------------------------------------------
     # plotting the stress directions in the focal sphere
     #--------------------------------------------------------------------------
@@ -198,7 +198,7 @@ def plot_stress(tau,strike,dip,rake,plot_file):
     #--------------------------------------------------------------------------
     # projection into the lower hemisphere
     projection_1 = 1; projection_2 = 1; projection_3 = 1;
-    
+    """
     #--------------------------------------------------------------------------
     #  zenithal equal-area projection
     
@@ -214,7 +214,7 @@ def plot_stress(tau,strike,dip,rake,plot_file):
     
     x_sigma_3 = np.sqrt(2.)*radius_sigma_3*np.cos(azimuth_sigma_3*np.pi/180.)
     y_sigma_3 = np.sqrt(2.)*radius_sigma_3*np.sin(azimuth_sigma_3*np.pi/180.)
-    
+    """
     #--------------------------------------------------------------------------
     # P/T axes
     #--------------------------------------------------------------------------
@@ -226,34 +226,24 @@ def plot_stress(tau,strike,dip,rake,plot_file):
     fi = np.arange(0,360, 0.1)
     plt.plot(np.cos(fi*np.pi/180.),np.sin(fi*np.pi/180.),'k-', linewidth = 2.0)
     plt.plot(0,0,'k+', markersize = 10);
-    
+    """
     sig1, = plt.plot(y_sigma_1,x_sigma_1,'go', markersize = 12, markeredgewidth = 2.5, 
                 markeredgecolor='g'); # sigma_1
     sig2, = plt.plot(y_sigma_2,x_sigma_2,'gx', markersize = 13, markeredgewidth = 2.5); # sigma_2
     sig3, = plt.plot(y_sigma_3,x_sigma_3,'g+', markersize = 13, markeredgewidth = 2.7); # sigma_3
-    
+    """
     #--------------------------------------------------------------------------
     # legend
     #--------------------------------------------------------------------------
-    plt.legend((sig1,sig2,sig3), ('sigma 1','sigma 2','sigma 3'), loc='lower right', fontsize = 14, numpoints=1)
-      
+    #plt.legend((sig1,sig2,sig3), ('sigma 1','sigma 2','sigma 3'), loc='lower right', fontsize = 14, numpoints=1)
+    plt.legend(('sigma 1','sigma 2'), loc='lower right', fontsize = 14, numpoints=1)
+
     #--------------------------------------------------------------------------
     # saving the plot
     #--------------------------------------------------------------------------
-    #plt.savefig(plot_file + '.png')#, format = 'png');
-    plt.show()
-    plt.close()
-
-import numpy as np
-tau = np.array([[-0.04843655049055269, 0.6114070463078799, 0.4395367289183564],
-                [0.6114070463078799, 0.162998393319393, -0.4425404728205615],
-                [0.4395367289183564, -0.4425404728205615, -0.11456184282884081]])
-
-'''
-strike = np.array([1, 2, 3])
-dip = np.array([70, 75, 77])
-rake = np.array([176, 175, 176])
-plot_file = "cobaji"
-
-plot_stress(tau,strike,dip,rake,plot_file)
-'''
+    if plot == 1:
+        plt.show()
+        plt.close()
+    if plot == 2:
+        plt.savefig("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/PT_axes.png")
+        plt.close()

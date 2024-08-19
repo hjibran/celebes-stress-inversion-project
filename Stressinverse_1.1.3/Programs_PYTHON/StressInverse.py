@@ -215,7 +215,7 @@ sio.savemat(ip.output_file + ".mat", data_matlab)
 # .dat files with array-like data
 np.savetxt(ip.output_file + ".dat", mechanisms_data,  fmt='%1.4e')
 np.savetxt(ip.principal_mechanisms_file + ".dat", principal_mechanisms_data, fmt='%1.4e')
-
+"""
 ## ------------------------------------------------
 ## plotting the results
 ## ------------------------------------------------
@@ -223,20 +223,20 @@ np.savetxt(ip.principal_mechanisms_file + ".dat", principal_mechanisms_data, fmt
 # P/T axes and the optimum principal stress axes
 # -------------------------------------------------
 import plot_stress as plots
-plots.plot_stress(tau_optimum,strike,dip,rake,ip.P_T_plot)
+plots.plot_stress(tau_optimum,strike,dip,rake,1)
 
 # ------------------------------------------------
 # Mohr cicle diagram
 # ------------------------------------------------
 import plot_mohr as plotm
 plotm.plot_mohr(tau_optimum,strike,dip,rake,principal_strike,principal_dip,principal_rake,ip.Mohr_plot)
-
+"""
 # ------------------------------------------------
 # confidence limiuts of the principal stress axes
 # ------------------------------------------------
 import plot_stress_axes as plotsa
-plotsa.plot_stress_axes(sigma_vector_1_statistics,sigma_vector_2_statistics,sigma_vector_3_statistics,ip.stress_plot)
-
+plotsa.plot_stress_axes(sigma_vector_1_statistics,sigma_vector_2_statistics,sigma_vector_3_statistics,1)
+"""
 # ------------------------------------------------
 # confidence limits (histogram) of the shape ratio
 # ------------------------------------------------
@@ -250,3 +250,4 @@ axH.grid(True)
 #pltHist.savefig(ip.shape_ratio_plot + '.png')
 plt.show()
 plt.close(pltHist)
+"""

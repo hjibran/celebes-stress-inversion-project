@@ -1,0 +1,66 @@
+<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
+<qgis version="3.34.9-Prizren">
+  <identifier>Pb2002 Steps.Shp</identifier>
+  <parentidentifier></parentidentifier>
+  <language>ENG</language>
+  <type>dataset</type>
+  <title>Tectonic plate boundaries (steps)</title>
+  <abstract>For studies of seismicity and geochemical cycles it is useful to know how much plate boundary is of spreading, transform, or subduction class, and how fast these boundaries slip. But a single class cannot always be specified for an entire plate boundary curve, or even for an entire plate boundary segment, because the class may change repeatedly with local changes in the azimuth of the boundary. A similar problem arises with computed relative velocities, which change smoothly in both magnitude and azimuth along every boundary. Therefore, file PB2002_steps.dat presents detailed information for each "digitization step". (A digitization step is the short great- circle arc between adjacent digitized plate boundary points.) There are 5,819 steps in model PB2002, with mean length of 44.7 km and length range from 1 km to 109 km. Table 2 of the associated paper details the information which is computed at the midpoint of every step.
+The 7 classes of plate boundary step contained in this file are defined as follows. Subduction zones (SUB) are plate boundary steps with a convergent (component of) velocity and a Benioff zone of intermediate to deep earthquakes and/or a parallel volcanic arc with Quaternary activity. (These criteria exclude the Alps, Zagros, Pamirs, Himalaya, Tien Shan, and Taiwan.) The designation of Benioff zones and/or volcanic arcs with the title symbols "/" or "\" was manual, with the intention that small gaps in a Benioff zone or volcanic arc should not cause unrealistic high-frequency changes in the interpreted step character. Because so many subduction zones lie along continental margins, or contain thickened arc crust which may be considered to have some "continental" character, subduction zones are not divided into continental and oceanic types.
+Other plate boundaries are classified into one of 6 types according to whether they are oceanic or continental, and whether their relative velocity is divergent, strike-slip, or convergent. Oceanic plate boundary steps are those lying entirely: (i) within sea floor whose age is known from linear magnetic anomalies to be less than 180 Ma [Mueller et al., 1997]; and/or (ii) at water depths exceeding 2000 m [ETOPO5, Anonymous, 1988]. Continental plate boundary steps are any that are not oceanic. (Thus, transitional steps are considered continental.) Boundary steps are considered strike-slip if the computed relative velocity (based on the Euler poles of Table 1) has an azimuth within 20 degrees of the azimuth of the plate boundary step. (This tolerance is intended to allow for random local errors in plate boundary azimuth, as well as systematic errors in model velocity azimuth caused by errors in Euler pole positions.) Combining these two tests yields the 6 non-subduction types: oceanic spreading ridge (OSR), oceanic transform fault (OTF), oceanic convergent boundary (OCB), continental rift boundary (CRB), continental transform fault (CTF), and continental convergent boundary (CCB).
+
+For studies of seismicity and geochemical cycles it is useful to know how much plate boundary is of spreading, transform, or subduction class, and how fast these boundaries slip. But a single class cannot always be specified for an entire plate boundary curve, or even for an entire plate boundary segment, because the class may change repeatedly with local changes in the azimuth of the boundary. A similar problem arises with computed relative velocities, which change smoothly in both magnitude and azimuth along every boundary. Therefore, file PB2002_steps.dat presents detailed information for each "digitization step". (A digitization step is the short great- circle arc between adjacent digitized plate boundary points.) There are 5,819 steps in model PB2002, with mean length of 44.7 km and length range from 1 km to 109 km. Table 2 of the associated paper details the information which is computed at the midpoint of every step. The 7 classes of plate boundary step contained in this file are defined as follows. Subduction zones (SUB) are plate boundary steps with a convergent (component of) velocity and a Benioff zone of intermediate to deep earthquakes and/or a parallel volcanic arc with Quaternary activity. (These criteria exclude the Alps, Zagros, Pamirs, Himalaya, Tien Shan, and Taiwan.) The designation of Benioff zones and/or volcanic arcs with the title symbols "/" or "\" was manual, with the intention that small gaps in a Benioff zone or volcanic arc should not cause unrealistic high-frequency changes in the interpreted step character. Because so many subduction zones lie along continental margins, or contain thickened arc crust which may be considered to have some "continental" character, subduction zones are not divided into continental and oceanic types. Other plate boundaries are classified into one of 6 types according to whether they are oceanic or continental, and whether their relative velocity is divergent, strike-slip, or convergent. Oceanic plate boundary steps are those lying entirely: (i) within sea floor whose age is known from linear magnetic anomalies to be less than 180 Ma [Mueller et al., 1997]; and/or (ii) at water depths exceeding 2000 m [ETOPO5, Anonymous, 1988]. Continental plate boundary steps are any that are not oceanic. (Thus, transitional steps are considered continental.) Boundary steps are considered strike-slip if the computed relative velocity (based on the Euler poles of Table 1) has an azimuth within 20 degrees of the azimuth of the plate boundary step. (This tolerance is intended to allow for random local errors in plate boundary azimuth, as well as systematic errors in model velocity azimuth caused by errors in Euler pole positions.) Combining these two tests yields the 6 non-subduction types: oceanic spreading ridge (OSR), oceanic transform fault (OTF), oceanic convergent boundary (OCB), continental rift boundary (CRB), continental transform fault (CTF), and continental convergent boundary (CCB).</abstract>
+  <keywords vocabulary="Search keys">
+    <keyword>reference</keyword>
+    <keyword>basemap</keyword>
+    <keyword>seismology</keyword>
+    <keyword>natural earth</keyword>
+    <keyword>plate tectonics</keyword>
+  </keywords>
+  <keywords vocabulary="gmd:topicCategory">
+    <keyword>seismology</keyword>
+    <keyword>plate tectonics</keyword>
+    <keyword>geology</keyword>
+  </keywords>
+  <contact>
+    <name>Hugo Ahlenius</name>
+    <organization>Nordpil</organization>
+    <position>Consultant</position>
+    <voice></voice>
+    <fax></fax>
+    <email></email>
+    <role></role>
+  </contact>
+  <links/>
+  <history>Data downloaded from http://peterbird.name/oldFTP/PB2002/ and converted to ArcGIS using ArcGIS 10.2, with minor edits to fix the edges of the world</history>
+  <history>Data source: Downloaded from http://peterbird.name/oldFTP/PB2002/</history>
+  <dates>
+    <date value="2014-06-16T00:00:00" type="Published"/>
+  </dates>
+  <fees></fees>
+  <constraints type="Limitations of use">This dataset is made available under the Open Data Commons Attribution License: http://opendatacommons.org/licenses/by/1.0/</constraints>
+  <rights>Hugo Ahlenius, Nordpil. 2014 Peter Bird, Department of Earth and Space Sciences, University of California, Los Angeles, CA 90095-1567 Geochemistry Geophysics Geosystems, 4(3), 1027, doi:10.1029/2001GC000252, 2003</rights>
+  <encoding></encoding>
+  <crs>
+    <spatialrefsys nativeFormat="Wkt">
+      <wkt>GEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Horizontal component of 3D system."],AREA["World."],BBOX[-90,-180,90,180]],ID["EPSG",4326]]</wkt>
+      <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+      <srsid>3452</srsid>
+      <srid>4326</srid>
+      <authid>EPSG:4326</authid>
+      <description>WGS 84</description>
+      <projectionacronym>longlat</projectionacronym>
+      <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+      <geographicflag>true</geographicflag>
+    </spatialrefsys>
+  </crs>
+  <extent>
+    <spatial maxx="180" maxy="86.8049000000000035" crs="EPSG:4326" minx="-180" dimensions="2" maxz="0" miny="-66.16320000000000334" minz="0"/>
+    <temporal>
+      <period>
+        <start>2014-06-15T16:00:00Z</start>
+        <end></end>
+      </period>
+    </temporal>
+  </extent>
+</qgis>

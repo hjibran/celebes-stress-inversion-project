@@ -8,7 +8,7 @@
 #         name of figure                                                  #
 #                                                                         #
 #*************************************************************************#
-def plot_stress_axes(sigma_vector_1_,sigma_vector_2_,sigma_vector_3_,plot_file):
+def plot_stress_axes(sigma_vector_1_,sigma_vector_2_,sigma_vector_3_,plot):
     
     import matplotlib.pyplot as plt
     import numpy as np
@@ -138,7 +138,10 @@ def plot_stress_axes(sigma_vector_1_,sigma_vector_2_,sigma_vector_3_,plot_file):
     #--------------------------------------------------------------------------
     # saving the plot
     #--------------------------------------------------------------------------
-    #plt.savefig(plot_file + '.png')
-    plt.show()
-    plt.close()
+    if plot == 1:
+        plt.show()
+        plt.close()
+    if plot == 2:
+        plt.savefig("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/stress_axes.png")
+        plt.close()
  

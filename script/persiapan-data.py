@@ -1,4 +1,8 @@
-#!/home/haidir/celebes-stress-inversion-project/venv/bin/python3
+# ----------------------------------------------------------------#
+# this code was created to determine the seed value that          # 
+# will be used in each cluster                                    #
+# the best seed is the seed with  mean standar deviation          #
+# ----------------------------------------------------------------#
 import pandas as pd
 
 data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/data/siap-olah/data-gabungan.csv")

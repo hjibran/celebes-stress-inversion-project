@@ -1,4 +1,8 @@
-#!/home/haidir/celebes-stress-inversion-project/venv/bin/python3
+# ----------------------------------------------------------------#
+# this code was created to determine the seed value that          # 
+# will be used in each cluster                                    #
+# the best seed is the seed with  mean standar deviation          #
+# ----------------------------------------------------------------#
 import pandas as pd
 from sklearn.cluster import DBSCAN
 import numpy as np
@@ -7,7 +11,7 @@ import sys
 import re
 import pygmt
 
-data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/data/siap-olah/fm50km7mw.csv") #data-tanpa-laut-maluku.csv")
+data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/data/siap-olah/fm50km7mw.csv")
 eps = float(sys.argv[1]) #float(input("Masukkan nilai epsilon(dalam desimal): ")) #
 min = int(sys.argv[2]) #int(input("Masukkan nilai minimal event: ")) #
 dir = ("/mnt/d/celebes-stress-inversion-project/Result/eps{}min{}".format(eps, min))
