@@ -23,7 +23,7 @@ while cluster <= 9:
         str(os.system("date"))
 
         os.system("/home/haidir/celebes-stress-inversion-project/bin/python3.10\
-                   /mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Programs_PYTHON/stress-inversion-with-bootstrap.py {} {}".format(cluster, seed))
+                   /mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Programs_PYTHON/stress-inversion-with-bootstrap-for-error.py {} {}".format(cluster, seed))
 
         #print("we are still on progress")
         data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/statistic_error.csv")

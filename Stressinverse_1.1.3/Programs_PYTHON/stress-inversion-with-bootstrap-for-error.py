@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt
     # export output: 1
     # print  output: 2
     # statistic error: 3
-output = 1
+output = 3
 if output == 3:
     input_file = "/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15/stressinverse/data/cls{}.dat".format(sys.argv[1])
     seed = int(sys.argv[2])
@@ -37,7 +37,7 @@ else:
     # plot with plt.show(): 1
     # save to picture file: 2
     #  don't plot anything: 3
-plot = 2
+plot = 3
 
 # number of random bootstrap
 N_bootstrap = 250
