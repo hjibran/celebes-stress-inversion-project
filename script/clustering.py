@@ -15,7 +15,7 @@ import sys
 import os
 
 data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/data/siap-olah/fm50km7mw.csv")
-eps = 0.4 #float(sys.argv[1]) #float(input("Masukkan nilai epsilon(dalam desimal): ")) #
+eps = 0.35 #float(sys.argv[1]) #float(input("Masukkan nilai epsilon(dalam desimal): ")) #
 min = 15 #int(sys.argv[2]) #int(input("Masukkan nilai minimal event: ")) #
 dir = ("/mnt/d/celebes-stress-inversion-project/Result/eps{}min{}".format(eps, min))
 
@@ -23,7 +23,7 @@ dir = ("/mnt/d/celebes-stress-inversion-project/Result/eps{}min{}".format(eps, m
 # additional option
 # ------------------------------------------------
 # clustering
-save_cluster_csv = True
+save_cluster_csv = False
 plot = True; save_fig = False
 fig_name = "sebaran.png"
 

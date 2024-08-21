@@ -1,5 +1,8 @@
-#!/home/haidir/celebes-stress-inversion-project/venv/bin/python3
-
+# ----------------------------------------------------------------#
+#                                                                 #
+# this code was created plot final shmax                          #
+#                                                                 #
+# ----------------------------------------------------------------#
 import pygmt
 import pandas as pd
 import numpy as np
@@ -8,18 +11,12 @@ import geopandas as gpd
 fig = pygmt.Figure()
 fig.basemap(region=[117.5, 127.5, -8.5, 5.5], frame=["WNES", "a"], projection="M20c")
 fig.coast(shorelines="lightgrey", land="lightgrey")
-fig.plot(
-    data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/indonesiafaults.gmt", 
-    pen="1p,lightgrey"
-)
-
-fig.plot(
-    data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/trench.gmt", 
-    pen="1.2p,lightgrey", 
-    style="f1c/0.2c+l+t", 
-    fill="lightgrey"
-)
-
+fig.plot(data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/indonesiafaults.gmt", 
+         pen="1p,lightgrey")
+fig.plot(data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/trench.gmt",
+         pen="1.2p,lightgrey",
+         style="f1c/0.2c+l+t",
+         fill="lightgrey")
 plate_boundary = gpd.read_file("/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/bird2003/PB2002_steps.shp")
 fig.plot(data=plate_boundary, pen="1p,grey", label="Plate Boundary")
 
@@ -45,7 +42,7 @@ fig.velo(
     vector="1c+p1p+e+gred",
 )"""
 
-cluster_boundary = gpd.read_file("/mnt/d/celebes-stress-inversion-project/Result/shp-buffer/buffer04015.shp")
+cluster_boundary = gpd.read_file("/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15-final/eps0.40pts15.shp")
 fig.plot(data=cluster_boundary, pen="1p,black,-", label="ε=0.40 MinPts=15")
 
 def shmax_plot(lon, lat, down, up):
@@ -66,13 +63,13 @@ def shmax_plot(lon, lat, down, up):
     fig.plot(data=data, style="w", fill="red")#, pen="1p, red")
 
 for i in range(10):
-    data_cluster = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15/clustered/cls{}.csv".format(i))
+    data_cluster = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15-final/clustered/cls{}.csv".format(i))
     lon = data_cluster["lon"];mean_longitude = np.mean(lon)
     lat = data_cluster["lat"];mean_latitude = np.mean(lat)
-    data_shmax = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/new_shmax/cls{}/output_error.csv".format(i))
+    data_shmax = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps0.4pts15/new_shmax/cls{}/output_error.csv".format(i))
     min_shmax = data_shmax["2.5%"][6]; max_shmax = data_shmax["97.5%"][6]
 
     shmax_plot(mean_longitude, mean_latitude, min_shmax, max_shmax)
 
-#fig.savefig("test_shmax.png")
-fig.show()
+fig.savefig("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps0.4pts15/new_shmax/shmax.png")
+#fig.show()
