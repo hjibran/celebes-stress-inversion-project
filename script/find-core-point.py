@@ -2,12 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 import pandas as pd
-eps = '0.5'
+eps = '0.35'
 min = 15
-banyak_kelompok = 7
+banyak_kelompok = 9
 
 for kelas in range(0, banyak_kelompok+1):
-  data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Result/tanpa-gempa-diatas-7-mw-diurut-berdasarkan-waktu/eps{}min{}/clustered/cls{}.csv".format(eps, min, kelas))
+  data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Result/eps{}min{}/clustered/cls{}.csv".format(eps, min, kelas))
 
   x = data.lon
   y = data.lat
@@ -28,4 +28,4 @@ for kelas in range(0, banyak_kelompok+1):
 
   dat = data.query('corepoint != 0')
 
-  dat.to_csv("/mnt/d/celebes-stress-inversion-project/Result/tanpa-gempa-diatas-7-mw-diurut-berdasarkan-waktu/eps{}min{}/clustered/corepoint{}.csv".format(eps, min, kelas), index=False)
+  dat.to_csv("/mnt/d/celebes-stress-inversion-project/Result/eps{}min{}/clustered/corepoint{}.csv".format(eps, min, kelas), index=False)
