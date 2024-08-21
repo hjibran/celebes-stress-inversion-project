@@ -5,7 +5,7 @@ from matplotlib.patches import Circle
 import mpl_toolkits.mplot3d.art3d as art3d
 import pandas as pd
 
-data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/cluster0/output_bootstarap.csv")
+data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps0.4pts15/new_shmax/cls0/output_bootstarap.csv")
 
 ax = plt.figure().add_subplot(projection='3d')
 #p = Circle((0,0), 1, edgecolor="black", color="white")

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 import pandas as pd
-eps = '0.55'
+eps = '0.5'
 min = 15
 banyak_kelompok = 7
 

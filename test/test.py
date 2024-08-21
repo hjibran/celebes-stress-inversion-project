@@ -97,6 +97,7 @@ shmax_plot(350,40)
 fig.show()
 """
 
+"""
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -146,8 +147,15 @@ plt.plot(arc2, back_arc2, "red")
 plt.plot(arc3, back_arc3, "red")
 plt.plot(arc4, back_arc4, "red")
 plt.plot(arc5, back_arc5, "red")
-"""plt.plot([90, 90],[-95,95], "black")
-plt.plot([180, 180],[-95,95], "black")
-plt.plot([270, 270],[-95,95], "black")"""
 plt.grid(True)
 plt.show()
+"""
+
+color = ['navy', 'dodgerblue', 'deepskyblue', 'darkslategray',
+         'darkgreen', 'red', 'chocolate', 'yellow', 'green',
+         'darkbrown', 'orangered', 'black', 'magenta', 'gold4',
+         'yellow4', 'chartreuse1', 'lightskyblue4', 'olivedrab1', 'springgreen4',
+         'khaki1', 'khaki4', 'purple', 'cyan', 'firebrick2']
+
+import random
+print(type(random.choice(color)))
