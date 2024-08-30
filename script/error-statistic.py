@@ -26,7 +26,7 @@ while cluster <= 9:
                    /mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Programs_PYTHON/stress-inversion-with-bootstrap-for-error.py {} {}".format(cluster, seed))
 
         #print("we are still on progress")
-        data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/statistic_error.csv")
+        data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps0.35pts15/statistic_error.csv")
         mean_std = np.mean(data["stdev"])
         mean_std_seed[seed-1][0] = cluster
         mean_std_seed[seed-1][1] = seed
@@ -47,7 +47,7 @@ while cluster <= 9:
     cluster += 1
 
 result = pd.DataFrame(result, columns=["cluster", "best seed", "mean stdev"])
-result.to_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/statistic_error.csv")
+result.to_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps0.35pts15/statistic_error.csv")
 
 print("finished running at:")
 time2 = str(os.system("date"))

@@ -29,9 +29,9 @@ if output == 3:
     seed = int(sys.argv[2])
 else:
     # path to file input, file output, and seed (to initialize random bootstrap)
-    input_file = r"/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15/stressinverse/data/cls9.dat"
+    input_file = r"/mnt/d/celebes-stress-inversion-project/Result/eps0.50min15-final/stressinverse/cls8.dat"
     output_file = r"/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/output"
-    seed = 36
+    seed = 14
 
 # plot option
     # plot with plt.show(): 1

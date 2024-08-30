@@ -42,8 +42,8 @@ fig.velo(
     vector="1c+p1p+e+gred",
 )"""
 
-cluster_boundary = gpd.read_file("/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15-final/eps0.40pts15.shp")
-fig.plot(data=cluster_boundary, pen="1p,black,-", label="ε=0.40 MinPts=15")
+cluster_boundary = gpd.read_file("/mnt/d/celebes-stress-inversion-project/Result/eps0.50min15-final/eps0.50pts15.shp")
+fig.plot(data=cluster_boundary, pen="1p,black,-", label="ε=0.50 MinPts=15")
 
 def shmax_plot(lon, lat, down, up):
     if down <=180:
@@ -63,13 +63,13 @@ def shmax_plot(lon, lat, down, up):
     fig.plot(data=data, style="w", fill="red")#, pen="1p, red")
 
 for i in range(10):
-    data_cluster = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15-final/clustered/cls{}.csv".format(i))
+    data_cluster = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Result/eps0.50min15-final/clustered/cls{}.csv".format(i))
     lon = data_cluster["lon"];mean_longitude = np.mean(lon)
     lat = data_cluster["lat"];mean_latitude = np.mean(lat)
-    data_shmax = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps0.4pts15/new_shmax/cls{}/output_error.csv".format(i))
+    data_shmax = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps0.50pts15/cls{}/output_error.csv".format(i))
     min_shmax = data_shmax["2.5%"][6]; max_shmax = data_shmax["97.5%"][6]
 
     shmax_plot(mean_longitude, mean_latitude, min_shmax, max_shmax)
 
-fig.savefig("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps0.4pts15/new_shmax/shmax.png")
+fig.savefig("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/shmax.png")
 #fig.show()

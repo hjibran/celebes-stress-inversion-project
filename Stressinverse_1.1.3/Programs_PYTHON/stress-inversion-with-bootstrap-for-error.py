@@ -23,15 +23,9 @@ import matplotlib.pyplot as plt
     # export output: 1
     # print  output: 2
     # statistic error: 3
-output = 3
-if output == 3:
-    input_file = "/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15/stressinverse/data/cls{}.dat".format(sys.argv[1])
-    seed = int(sys.argv[2])
-else:
-    # path to file input, file output, and seed (to initialize random bootstrap)
-    input_file = r"/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15/stressinverse/data/cls9.dat"
-    output_file = r"/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/output"
-    seed = 36
+input_file = "/mnt/d/celebes-stress-inversion-project/Result/eps0.35min15-final/stressinverse/cls{}.dat".format(sys.argv[1])
+seed = int(sys.argv[2])
+
 
 # plot option
     # plot with plt.show(): 1
@@ -198,20 +192,4 @@ error = pd.concat([confidence_data(bootstrap["azimuth sigma 1"]), confidence_dat
                    confidence_data(bootstrap["azimuth sigma 3"]), confidence_data(bootstrap["plunge sigma 3"]), 
                    confidence_data(bootstrap["SHmax"]), confidence_data(bootstrap["shape ratio"])])
 
-if output == 1:
-    # export to csv
-    origin.drop([1]).to_csv(output_file + "_origin.csv", index=False)
-    bootstrap.to_csv(output_file + "_bootstarap.csv", index=False)
-    error.insert(0, "value", ["Sigma1 Azimuth", "Sigma1 Plunge",\
-                            "Sigma2 Azimuth", "Sigma2 Plunge",\
-                            "Sigma3 Azimuth", "Sigma3 Plunge",\
-                            "SHmax", "Shape Ratio"])
-    error.to_csv(output_file + "_error.csv", index=False)
-elif output == 2:
-    print(origin.drop([1]))
-    print(bootstrap)
-    print(error)
-elif output == 3:
-    error.to_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/statistic_error.csv", index=False)
-else:
-    print("You don't define the output option")
+error.to_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps0.35pts15/statistic_error.csv", index=False)

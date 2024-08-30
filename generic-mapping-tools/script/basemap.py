@@ -10,7 +10,7 @@ fig = pygmt.Figure()
 fig.grdimage(grid=grid, 
              frame=["a", "+tPulau Sulawesi"], 
              projection="M20c", 
-             cmap="vik"#"earth"#"oleron"#"geo"
+             cmap=  "vik" #"globe" #"terra"#"earth"#"oleron"#"geo" #"etopo1"
 )
 fig.colorbar(frame=["a3000f1000", "x+lElevation", "y+lm"]
 )
