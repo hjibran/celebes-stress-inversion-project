@@ -7,28 +7,39 @@ import geopandas as gpd
 data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/data/siap-olah/fm50km7mw.csv")
 FM = data.iloc[:, [3, 2, 4, 6, 7, 8, 5]]
 FM.columns = ["longitude", "latitude", "depth", "strike", "dip", "rake", "magnitude"]
-buffer03015 = gpd.read_file("/mnt/d/celebes-stress-inversion-project/Result/tanpa-gempa-diatas-7-mw-diurut-berdasarkan-waktu/batas-cluster/eps0.30min15-LN.shp")
-buffer04015 = gpd.read_file("/mnt/d/celebes-stress-inversion-project/Result/tanpa-gempa-diatas-7-mw-diurut-berdasarkan-waktu/batas-cluster/eps0.40min15-LN.shp")
-buffer05015 = gpd.read_file("/mnt/d/celebes-stress-inversion-project/Result/tanpa-gempa-diatas-7-mw-diurut-berdasarkan-waktu/batas-cluster/eps0.50min15-LN.shp")
+buffer03515 = gpd.read_file("/mnt/d/celebes-stress-inversion-project/Result/eps0.35min15-final/eps0.35pts15.shp")
+buffer04015 = gpd.read_file("/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15-final/eps0.40pts15.shp")
+buffer05015 = gpd.read_file("/mnt/d/celebes-stress-inversion-project/Result/eps0.50min15-final/eps0.50pts15.shp")
 
+# download and store earth relief
+grid = pygmt.datasets.load_earth_relief(resolution="30s", # resolution of earth relief
+                                        region=[117.5, 127.5, -8.5, 5.5], # boarder of map: [minlon, maxlon, minlat, maxlat]
+                                        registration="gridline")
 fig = pygmt.Figure()
-fig.basemap(region=[117.5, 127.5, -8.5, 5.5], frame=["WNES", "a"], projection="M20c")
-fig.coast(shorelines="lightgrey", land="lightgrey")
+
+# plot grid image
+fig.grdimage(grid=grid, # call grid
+             frame=["a", "EWSN"],#, "+tPulau Sulawesi"],
+             projection="M20c",
+             cmap= "/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt")
+
+#fig.basemap(region=[117.5, 127.5, -8.5, 5.5], frame=["WNES", "a"], projection="M20c")
+#fig.coast(water="white")
 fig.plot(
     data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/indonesiafaults.gmt", 
-    pen="1p,lightgrey"
+    pen="1p,black"
 )
 fig.plot(
     data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/trench.gmt", 
-    pen="1.2p,lightgrey", 
+    pen="1.2p,black", 
     style="f1c/0.2c+l+t", 
-    fill="lightgrey"
+    fill="black"
 )
 fig.plot(x=FM.longitude, y=FM.latitude, style="c0.1c", fill='black')
 
-fig.plot(data=buffer03015, pen="1p,green", label="ε=0.30 MinPts=15")
-fig.plot(data=buffer04015, pen="1p,blue", label="ε=0.40 MinPts=15")
-fig.plot(data=buffer05015, pen="1p,red", label="ε=0.50 MinPts=15")
+fig.plot(data=buffer03515, pen="2p,springgreen3", label="ε=0.35 MinPts=15")
+fig.plot(data=buffer04015, pen="2p,gold2", label="ε=0.40 MinPts=15")
+fig.plot(data=buffer05015, pen="2p,tomato", label="ε=0.50 MinPts=15")
 
 fill = "red"
 fig.plot(x=119.4, y=-5.16, style="s0.25c", fill=fill, pen="1p,black")
@@ -53,10 +64,11 @@ fig.text(x=124.7, y=2, text="Manado", font=font)
 fig.plot(x=[124.7, 124.8], y=[1.88, 1.49], pen="1.5p,black")
 
 fig.basemap(
-    rose="jBL+w1.8c+lW,E,S,N+o4.5c/0.5c+f2",
-    map_scale="jBL+w200k+o0.45c/0.5c+f+lkm"
+    rose="jBL+w1.8c+lW,E,S,N+o0.5c/0.5c+f2",
+    #map_scale="jBL+w200k+o0.45c/0.5c+f+lkm"
 ) 
-fig.legend(position="jBL+o0.2/1.6c", box=True)
+fig.plot(x=118.8, y=4.85, style="r4.1c/1.5c", pen="1p,black", fill="white")
+fig.legend(position="jTL+o0.5/0.5c", box=False)
 
-fig.savefig("/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/maps/class-boundaries.png")
-#fig.show()
+#fig.savefig("/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/maps/class-boundaries.png")
+fig.show()

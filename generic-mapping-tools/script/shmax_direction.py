@@ -8,6 +8,36 @@ import pandas as pd
 import numpy as np
 import geopandas as gpd
 
+# import module
+import pygmt
+import geopandas as gpd
+
+# download and store earth relief
+grid = pygmt.datasets.load_earth_relief(resolution="30s", # resolution of earth relief
+                                        region=[117.5, 127.5, -8.5, 5.5], # boarder of map: [minlon, maxlon, minlat, maxlat]
+                                        registration="gridline")
+# begin fig object
+fig = pygmt.Figure()
+
+# plot grid image
+fig.grdimage(grid=grid, # call grid
+             frame=["a", "+tPulau Sulawesi"],
+             projection="M20c",
+             cmap=  "/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt")
+# display color bar from grid image
+fig.colorbar(frame=["a3000f1000", "x+lElevation", "y+lm"])
+
+# plot fault
+fig.plot(data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/indonesiafaults.gmt",
+         pen="0.5p,black")
+
+# plot trench
+fig.plot(data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/trench.gmt",
+         pen="1p",
+         style="f1c/0.2c+l+t",
+         fill="black")
+
+'''
 fig = pygmt.Figure()
 fig.basemap(region=[117.5, 127.5, -8.5, 5.5], frame=["WNES", "a"], projection="M20c")
 fig.coast(shorelines="lightgrey", land="lightgrey")
@@ -19,6 +49,7 @@ fig.plot(data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-pa
          fill="lightgrey")
 plate_boundary = gpd.read_file("/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/bird2003/PB2002_steps.shp")
 fig.plot(data=plate_boundary, pen="1p,grey", label="Plate Boundary")
+'''
 
 """
 df = pd.DataFrame(
@@ -43,7 +74,7 @@ fig.velo(
 )"""
 
 cluster_boundary = gpd.read_file("/mnt/d/celebes-stress-inversion-project/Result/eps0.50min15-final/eps0.50pts15.shp")
-fig.plot(data=cluster_boundary, pen="1p,black,-", label="ε=0.50 MinPts=15")
+fig.plot(data=cluster_boundary, pen="1p,blue,-", label="ε=0.50 MinPts=15")
 
 def shmax_plot(lon, lat, down, up):
     if down <=180:
@@ -60,7 +91,7 @@ def shmax_plot(lon, lat, down, up):
         return degree
 
     data = [[lon, lat, 1.5, 360-up+90, 360-down+90], [lon, lat, 1.5, 360-up1+90, 360-down1+90]]
-    fig.plot(data=data, style="w", fill="red")#, pen="1p, red")
+    fig.plot(data=data, style="w", fill="blue")#, pen="1p, red")
 
 for i in range(10):
     data_cluster = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Result/eps0.50min15-final/clustered/cls{}.csv".format(i))
@@ -71,5 +102,5 @@ for i in range(10):
 
     shmax_plot(mean_longitude, mean_latitude, min_shmax, max_shmax)
 
-fig.savefig("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/shmax.png")
-#fig.show()
+#fig.savefig("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/shmax.png")
+fig.show()

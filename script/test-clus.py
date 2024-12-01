@@ -6,8 +6,15 @@ import os
 import sys
 import re
 import pygmt
-eps = 0.45
-min = 15
+'''
+10    10.0  1.10          0.475461
+11    10.0  1.15          0.475058
+32    15.0  1.35          0.475058
+33    15.0  1.40          0.475058
+'''
+
+eps = 1.4
+min = 4
 
 data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/data/siap-olah/fm50km7mw.csv") #data-tanpa-laut-maluku.csv")
 

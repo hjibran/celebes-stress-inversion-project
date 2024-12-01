@@ -23,21 +23,21 @@ import matplotlib.pyplot as plt
     # export output: 1
     # print  output: 2
     # statistic error: 3
-output = 1
+output = 2
 if output == 3:
     input_file = "/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15/stressinverse/data/cls{}.dat".format(sys.argv[1])
     seed = int(sys.argv[2])
 else:
     # path to file input, file output, and seed (to initialize random bootstrap)
-    input_file = r"/mnt/d/celebes-stress-inversion-project/Result/eps0.50min15-final/stressinverse/cls8.dat"
+    input_file = r"/mnt/d/celebes-stress-inversion-project/Result/eps0.50min15-final/stressinverse/cls9.dat"
     output_file = r"/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/output"
-    seed = 14
+    seed = 36
 
 # plot option
     # plot with plt.show(): 1
     # save to picture file: 2
     #  don't plot anything: 3
-plot = 2
+plot = 1
 
 # number of random bootstrap
 N_bootstrap = 250

@@ -188,10 +188,10 @@ def plot_stress(tau,strike,dip,rake,plot):
     # plotting the stress directions in the focal sphere
     #--------------------------------------------------------------------------
     fig, ax = plt.subplots()
-    ax.set_title('Principal stress and P/T axes',fontsize = 16)
+    #ax.set_title('Principal stress and P/T axes',fontsize = 16)
     
     ax.axis('equal')
-    ax.axis([-1.05,  1.70, -1.05, 1.05])
+    ax.axis([-1.05, 1.05, -1.05, 1.05])
     ax.axis('off')
     #ax.axis()
     
@@ -236,7 +236,7 @@ def plot_stress(tau,strike,dip,rake,plot):
     # legend
     #--------------------------------------------------------------------------
     #plt.legend((sig1,sig2,sig3), ('sigma 1','sigma 2','sigma 3'), loc='lower right', fontsize = 14, numpoints=1)
-    plt.legend(('sigma 1','sigma 2'), loc='lower right', fontsize = 14, numpoints=1)
+    plt.legend(('P- Axis','T- Axis'), loc='lower right', fontsize = 14, numpoints=1)
 
     #--------------------------------------------------------------------------
     # saving the plot
