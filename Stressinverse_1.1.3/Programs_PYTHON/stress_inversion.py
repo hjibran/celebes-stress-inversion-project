@@ -396,8 +396,7 @@ def stress_inversion(strike1,dip1,rake1,strike2,dip2,rake2,friction_min,friction
     sigma_vector_2  = np.array(vector[:,j[1]])
     sigma_vector_3  = np.array(vector[:,j[2]])
 
-
     sigma = np.sort(np.linalg.eigvals(tau))
     shape_ratio = (sigma[0]-sigma[1])/(sigma[0]-sigma[2])
 
-    return tau,shape_ratio,strike,dip,rake,instability,friction_optimum
+    return tau,shape_ratio,strike,dip,rake,instability,friction_optimum,sigma

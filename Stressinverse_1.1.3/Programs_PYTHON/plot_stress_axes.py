@@ -133,7 +133,7 @@ def plot_stress_axes(sigma_vector_1_,sigma_vector_2_,sigma_vector_3_,plot):
     
     #--------------------------------------------------------------------------
     # legend
-    axSA.legend((sig1,sig2,sig3), ('sigma 1','sigma 2','sigma 3'), loc = 'lower right', fontsize = 14, numpoints=1)
+    axSA.legend((sig1,sig2,sig3), ('sigma 1','sigma 2','sigma 3'), loc = 'center right', fontsize = 14, numpoints=1)
         
     #--------------------------------------------------------------------------
     # saving the plot

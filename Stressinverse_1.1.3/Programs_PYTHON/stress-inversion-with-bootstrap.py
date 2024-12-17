@@ -23,15 +23,20 @@ import matplotlib.pyplot as plt
     # export output: 1
     # print  output: 2
     # statistic error: 3
+    # to run all cluster: 4
 output = 2
 if output == 3:
     input_file = "/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15/stressinverse/data/cls{}.dat".format(sys.argv[1])
     seed = int(sys.argv[2])
+elif output == 4:
+    input_file = "/mnt/d/celebes-stress-inversion-project/Result/eps{}min15-final/stressinverse/cls{}.dat".format(sys.argv[1], sys.argv[2])
+    output_file = "/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps{}pts15/cls{}/".format(sys.argv[1], sys.argv[2])
+    seed = int(sys.argv[3])
 else:
     # path to file input, file output, and seed (to initialize random bootstrap)
-    input_file = r"/mnt/d/celebes-stress-inversion-project/Result/eps0.50min15-final/stressinverse/cls9.dat"
-    output_file = r"/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/output"
-    seed = 36
+    input_file = r"/mnt/d/celebes-stress-inversion-project/Result/eps0.35min15-final/stressinverse/cls9.dat"
+    output_file = r"/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/"
+    seed = 30
 
 # plot option
     # plot with plt.show(): 1
@@ -70,7 +75,7 @@ def run(str1,dip1,rak1,str2,dip2,rak2,
     # ----------------------------------------------------------------------------------------
     # inversion for stress
     import stress_inversion as si
-    tau_optimum,shape_ratio,strike,dip,rake,instability,friction = si.stress_inversion(
+    tau_optimum,shape_ratio,strike,dip,rake,instability,friction,sigma = si.stress_inversion(
         str1,dip1,rak1,str2,dip2,rak2,
         friction_min,friction_max,friction_step,N_iterations,N_realizations) 
     
@@ -113,6 +118,12 @@ def run(str1,dip1,rak1,str2,dip2,rak2,
     principal_strike, principal_dip, principal_rake = pm.principal_mechanisms(sigma_vector_1_optimum,sigma_vector_3_optimum,friction)
 
     # ----------------------------------------------------------------------------------------
+    # simpson index
+    import simpson_index as simpx
+
+    aR = simpx.simpson_index(principal_strike[0], principal_dip[0], principal_rake[0], sigma)
+
+    # ----------------------------------------------------------------------------------------
     # return the value
     return t11, t12, t13, t22, t23, t33,\
             sg1_azm, sg1_pln, sg2_azm, sg2_pln, sg3_azm, sg3_pln,\
@@ -120,7 +131,8 @@ def run(str1,dip1,rak1,str2,dip2,rak2,
             principal_strike[0], principal_dip[0], principal_rake[0],\
             principal_strike[1], principal_dip[1], principal_rake[1],\
             strike, dip, rake,\
-            sigma_vector_1_optimum, sigma_vector_2_optimum, sigma_vector_3_optimum
+            sigma_vector_1_optimum, sigma_vector_2_optimum, sigma_vector_3_optimum,\
+            aR
 
 
 # ========================================================================================
@@ -143,14 +155,15 @@ def orgn(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
     import numpy as np
 
     # run the stress inversion with origin data
-    org = np.zeros((2, 21))
+    org = np.zeros((2, 22))
     org[0][0], org[0][1], org[0][2], org[0][3], org[0][4], org[0][5],\
         org[0][6], org[0][7], org[0][8], org[0][9], org[0][10], org[0][11],\
         org[0][12], org[0][13], org[0][14],\
         org[0][15], org[0][16], org[0][17],\
         org[0][18], org[0][19], org[0][20],\
         strike, dip, rake,\
-        sigma_vector_1_optimum, sigma_vector_2_optimum, sigma_vector_3_optimum\
+        sigma_vector_1_optimum, sigma_vector_2_optimum, sigma_vector_3_optimum,\
+        org[0][21]\
         = run(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2)
 
     # make a data frame for stress inversion output
@@ -159,7 +172,8 @@ def orgn(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
         "azimuth sigma 1", "plunge sigma 1", "azimuth sigma 2", "plunge sigma 2", "azimuth sigma 3", "plunge sigma 3",
         "shape ratio", "friction", "SHmax",
         "principal strike 1", "principal dip 1", "principal rake 1",
-        "principal strike 2", "principal dip 2", "principal rake 2"])
+        "principal strike 2", "principal dip 2", "principal rake 2",
+        "simpson index"])
 
     # return the data frame
     return origin, strike, dip, rake
@@ -175,7 +189,7 @@ def btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
     np.random.seed(seed)
 
     # make bootstrap data
-    boots = np.zeros((N_bootstrap, 21))
+    boots = np.zeros((N_bootstrap, 22))
     sigma_vector_11 = np.zeros((N_bootstrap)); sigma_vector_12 = np.zeros((N_bootstrap)); sigma_vector_13 = np.zeros((N_bootstrap))
     sigma_vector_21 = np.zeros((N_bootstrap)); sigma_vector_22 = np.zeros((N_bootstrap)); sigma_vector_23 = np.zeros((N_bootstrap))
     sigma_vector_31 = np.zeros((N_bootstrap)); sigma_vector_32 = np.zeros((N_bootstrap)); sigma_vector_33 = np.zeros((N_bootstrap))
@@ -197,7 +211,8 @@ def btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
             boots[i][15], boots[i][16], boots[i][17],\
             boots[i][18], boots[i][19], boots[i][20],\
             strike, dip, rake,\
-            sigma_vector_1_optimum, sigma_vector_2_optimum, sigma_vector_3_optimum\
+            sigma_vector_1_optimum, sigma_vector_2_optimum, sigma_vector_3_optimum,\
+            boots[i][21],\
             = run(bt_str1,bt_dip1,bt_rak1,bt_str2,bt_dip2,bt_rak2)
         
         sigma_vector_11[i] = sigma_vector_1_optimum[0]; sigma_vector_12[i] = sigma_vector_1_optimum[1]; sigma_vector_13[i] = sigma_vector_1_optimum[2]
@@ -211,7 +226,8 @@ def btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
         "azimuth sigma 1", "plunge sigma 1", "azimuth sigma 2", "plunge sigma 2", "azimuth sigma 3", "plunge sigma 3",
         "shape ratio", "friction", "SHmax",
         "principal strike 1", "principal dip 1", "principal rake 1",
-        "principal strike 2", "principal dip 2", "principal rake 2"])
+        "principal strike 2", "principal dip 2", "principal rake 2",
+        "simpson index"])
     
     sigma_vector_1_statistics = np.array([sigma_vector_11, sigma_vector_12, sigma_vector_13])
     sigma_vector_2_statistics = np.array([sigma_vector_21, sigma_vector_22, sigma_vector_23])
@@ -249,17 +265,19 @@ def confidence_data(data):
 error = pd.concat([confidence_data(bootstrap["azimuth sigma 1"]), confidence_data(bootstrap["plunge sigma 1"]), 
                    confidence_data(bootstrap["azimuth sigma 2"]), confidence_data(bootstrap["plunge sigma 2"]), 
                    confidence_data(bootstrap["azimuth sigma 3"]), confidence_data(bootstrap["plunge sigma 3"]), 
-                   confidence_data(bootstrap["SHmax"]), confidence_data(bootstrap["shape ratio"])])
+                   confidence_data(bootstrap["SHmax"]), confidence_data(bootstrap["shape ratio"]),
+                   confidence_data(bootstrap["simpson index"])])
 
-if output == 1:
+if output == 1 or output == 4:
     # export to csv
-    origin.drop([1]).to_csv(output_file + "_origin.csv", index=False)
-    bootstrap.to_csv(output_file + "_bootstarap.csv", index=False)
+    origin.drop([1]).to_csv(output_file + "output_origin.csv", index=False)
+    bootstrap.to_csv(output_file + "output_bootstarap.csv", index=False)
     error.insert(0, "value", ["Sigma1 Azimuth", "Sigma1 Plunge",\
                             "Sigma2 Azimuth", "Sigma2 Plunge",\
                             "Sigma3 Azimuth", "Sigma3 Plunge",\
-                            "SHmax", "Shape Ratio"])
-    error.to_csv(output_file + "_error.csv", index=False)
+                            "SHmax", "Shape Ratio",
+                            "simpson index"])
+    error.to_csv(output_file + "output_error.csv", index=False)
 elif output == 2:
     print(origin.drop([1]))
     print(bootstrap)
@@ -291,6 +309,8 @@ def histo(title, data, plot, bin = 25):
         bin = np.arange(0, 90, 2)
     elif bin == "sr":
         bin = np.arange(0+0.0125, 1, 0.025)
+    elif bin == "ar":
+        bin = np.arange(0, 3, 0.1)
     
     if plot == 3:
         pass
@@ -302,7 +322,7 @@ def histo(title, data, plot, bin = 25):
         if plot == 1:
             plt.show()
         elif plot == 2:
-            plt.savefig("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/{}.png".format(title))
+            plt.savefig(output_file + "{}.png".format(title))
 
 histo("Azimuth Sigma 1", bootstrap["azimuth sigma 1"], plot, "az")
 histo("Plunge sigma 1", bootstrap["plunge sigma 1"], plot, "pl")
@@ -312,6 +332,7 @@ histo("Azimuth Sigma 3", bootstrap["azimuth sigma 3"], plot, "az")
 histo("Plunge sigma 3", bootstrap["plunge sigma 3"], plot, "pl")
 histo("SHmax", bootstrap["SHmax"], plot, "az")
 histo("Shape Ratio", bootstrap["shape ratio"], plot, "sr")
+histo("Simpson Index", bootstrap["simpson index"], plot, "ar")
 
 # ----------------------------------------------------------------------------------------
 # P/T axes and the optimum principal stress axes

@@ -13,7 +13,7 @@ buffer05015 = gpd.read_file("/mnt/d/celebes-stress-inversion-project/Result/eps0
 
 # download and store earth relief
 grid = pygmt.datasets.load_earth_relief(resolution="30s", # resolution of earth relief
-                                        region=[117.5, 127.5, -8.5, 5.5], # boarder of map: [minlon, maxlon, minlat, maxlat]
+                                        region=[117.5, 128, -9, 6], # boarder of map: [minlon, maxlon, minlat, maxlat]
                                         registration="gridline")
 fig = pygmt.Figure()
 
@@ -24,7 +24,7 @@ fig.grdimage(grid=grid, # call grid
              cmap= "/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt")
 
 #fig.basemap(region=[117.5, 127.5, -8.5, 5.5], frame=["WNES", "a"], projection="M20c")
-#fig.coast(water="white")
+fig.coast(water="white")
 fig.plot(
     data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/indonesiafaults.gmt", 
     pen="1p,black"
