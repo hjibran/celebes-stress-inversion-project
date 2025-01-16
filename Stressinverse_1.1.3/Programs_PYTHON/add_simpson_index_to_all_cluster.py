@@ -3,10 +3,10 @@ import pandas as pd
 
 print("Start running to calculate simpson index bootstrap per cluster")
 
-epsilons = ["0.50"]
+epsilons = ["0.40"]
 
 for epsilon in epsilons:
-    table = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps{}pts15/statistic_error.csv".format(epsilon))
+    table = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps{}pts15/new_shmax/z_statistic_error.csv".format(epsilon))
     seed = table["best seed"]
     clss = range(10)
     for cls in clss:

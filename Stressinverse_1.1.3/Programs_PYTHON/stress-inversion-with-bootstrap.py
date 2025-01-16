@@ -24,13 +24,13 @@ import matplotlib.pyplot as plt
     # print  output: 2
     # statistic error: 3
     # to run all cluster: 4
-output = 2
+output = 4
 if output == 3:
     input_file = "/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15/stressinverse/data/cls{}.dat".format(sys.argv[1])
     seed = int(sys.argv[2])
 elif output == 4:
-    input_file = "/mnt/d/celebes-stress-inversion-project/Result/eps{}min15-final/stressinverse/cls{}.dat".format(sys.argv[1], sys.argv[2])
-    output_file = "/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps{}pts15/cls{}/".format(sys.argv[1], sys.argv[2])
+    input_file = "/mnt/d/celebes-stress-inversion-project/Result/eps{}min15-final/stressinverse/data/cls{}.dat".format(sys.argv[1], sys.argv[2])
+    output_file = "/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps{}pts15/new_shmax/cls{}/".format(sys.argv[1], sys.argv[2])
     seed = int(sys.argv[3])
 else:
     # path to file input, file output, and seed (to initialize random bootstrap)
@@ -42,7 +42,7 @@ else:
     # plot with plt.show(): 1
     # save to picture file: 2
     #  don't plot anything: 3
-plot = 1
+plot = 2
 
 # number of random bootstrap
 N_bootstrap = 250
@@ -68,7 +68,7 @@ friction_step = 0.05
 # ------------------------------------------------
 # make stress inversion function
 # ------------------------------------------------
-def run(str1,dip1,rak1,str2,dip2,rak2,
+def run(str1,dip1,rak1,str2,dip2,rak2,k=0,
         friction_min=friction_min,friction_max=friction_max,friction_step=friction_step,
         N_iterations=N_iterations,N_realizations=N_realizations):
     
@@ -121,8 +121,12 @@ def run(str1,dip1,rak1,str2,dip2,rak2,
     # simpson index
     import simpson_index as simpx
 
-    aR = simpx.simpson_index(principal_strike[0], principal_dip[0], principal_rake[0], sigma)
-
+    if len(k) == 0:
+        K = simpx.fault_mechanism(principal_strike[0], principal_dip[0], principal_rake[0])
+        aR = simpx.simpson_index(K, sigma)
+    else:
+        K = simpx.fault_mechanism(k["principal strike 1"][0], k["principal dip 1"][0], k["principal rake 1"][0]) 
+        aR = simpx.simpson_index(K, sigma)
     # ----------------------------------------------------------------------------------------
     # return the value
     return t11, t12, t13, t22, t23, t33,\
@@ -154,6 +158,7 @@ def orgn(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
     import pandas as pd
     import numpy as np
 
+    k = pd.DataFrame()
     # run the stress inversion with origin data
     org = np.zeros((2, 22))
     org[0][0], org[0][1], org[0][2], org[0][3], org[0][4], org[0][5],\
@@ -164,7 +169,7 @@ def orgn(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
         strike, dip, rake,\
         sigma_vector_1_optimum, sigma_vector_2_optimum, sigma_vector_3_optimum,\
         org[0][21]\
-        = run(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2)
+        = run(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2,k)
 
     # make a data frame for stress inversion output
     origin = pd.DataFrame(org, columns=
@@ -182,7 +187,7 @@ origin, strike, dip, rake = orgn(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2
 # ----------------------------------------------------------------------------------------
 # data with bootstrap
 # make function
-def btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
+def btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2, origin):
     import numpy as np
     import pandas as pd
     from random import choice
@@ -204,6 +209,7 @@ def btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
         bt_dip2 = or_dip2[idxs_boot]
         bt_rak2 = or_rak2[idxs_boot]
 
+        origin = origin
         # run the stress inversion with origin data
         boots[i][0], boots[i][1], boots[i][2], boots[i][3], boots[i][4], boots[i][5],\
             boots[i][6], boots[i][7], boots[i][8], boots[i][9], boots[i][10], boots[i][11],\
@@ -213,7 +219,7 @@ def btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
             strike, dip, rake,\
             sigma_vector_1_optimum, sigma_vector_2_optimum, sigma_vector_3_optimum,\
             boots[i][21],\
-            = run(bt_str1,bt_dip1,bt_rak1,bt_str2,bt_dip2,bt_rak2)
+            = run(bt_str1,bt_dip1,bt_rak1,bt_str2,bt_dip2,bt_rak2,origin)
         
         sigma_vector_11[i] = sigma_vector_1_optimum[0]; sigma_vector_12[i] = sigma_vector_1_optimum[1]; sigma_vector_13[i] = sigma_vector_1_optimum[2]
         sigma_vector_21[i] = sigma_vector_2_optimum[0]; sigma_vector_22[i] = sigma_vector_2_optimum[1]; sigma_vector_23[i] = sigma_vector_2_optimum[2]
@@ -235,7 +241,7 @@ def btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
     
     # return the data frame
     return bootstrap, sigma_vector_1_statistics, sigma_vector_2_statistics, sigma_vector_3_statistics
-bootstrap, sigma_vector_1_statistics, sigma_vector_2_statistics, sigma_vector_3_statistics = btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2)
+bootstrap, sigma_vector_1_statistics, sigma_vector_2_statistics, sigma_vector_3_statistics = btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2,origin)
 
 
 # ========================================================================================
@@ -310,7 +316,7 @@ def histo(title, data, plot, bin = 25):
     elif bin == "sr":
         bin = np.arange(0+0.0125, 1, 0.025)
     elif bin == "ar":
-        bin = np.arange(0, 3, 0.1)
+        bin = np.arange(0, 3, 0.075)
     
     if plot == 3:
         pass

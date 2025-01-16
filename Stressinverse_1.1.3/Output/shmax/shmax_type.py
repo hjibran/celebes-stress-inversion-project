@@ -15,7 +15,7 @@ def shmax_plot(lon, lat, down, up, fill):
     data = [[lon, lat, fill, 360-up+90, 360-down+90], [lon, lat, fill, 360-up1+90, 360-down1+90]]
     fig.plot(data=data, style="w1c", fill=fill, cmap=True)
 
-table = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/shmax.csv")
+table = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/shmax/shmax.csv")
 
 table1 = table#table.query('name == 15.40')
 table1 = table1.reset_index()
@@ -44,9 +44,9 @@ fig.coast(region=[117.5, 127.5, -8.5, 5.5],
           #shorelines='0.25p,black,solid'
           )
 
-os.system('gmt makecpt -Cdarkblue,blue,green,red,darkred -T0/3/0.02 -Z > /mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/custom.cpt')
+os.system('gmt makecpt -Cdarkblue,blue,green,red,darkred -T0/3/0.02 -Z > /mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/shmax/custom.cpt')
 sebaran = np.array([0,3])
-pygmt.makecpt(cmap="/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/custom.cpt", 
+pygmt.makecpt(cmap="/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/shmax/custom.cpt", 
               series=[sebaran.min(), sebaran.max()])
 
 for i in range(len(table1)):
