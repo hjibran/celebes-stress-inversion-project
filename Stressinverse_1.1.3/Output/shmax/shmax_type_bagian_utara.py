@@ -13,7 +13,7 @@ def shmax_plot(lon, lat, down, up, fill):
         up1 = up -180
 
     data = [[lon, lat, fill, 360-up+90, 360-down+90], [lon, lat, fill, 360-up1+90, 360-down1+90]]
-    fig.plot(data=data, style="w2c", fill=fill, cmap=True, transparency=25, pen="black")
+    fig.plot(data=data, style="w1.25c", fill=fill, cmap=True, transparency=25, pen="black")
 
 table = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/shmax/shmax_bagian_utara.csv")
 
