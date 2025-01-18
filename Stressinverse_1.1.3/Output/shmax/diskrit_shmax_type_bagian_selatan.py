@@ -58,7 +58,7 @@ fig = pygmt.Figure()
 #             projection="M20c",
 #             cmap= "/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt")
 
-fig.coast(region=[118.5, 123, -4.5, -2],
+fig.coast(region=[118.5, 123, -4.5, -1.7],
           projection='M10c',
           frame=["a1", "EWSN"],
           land='lightgray',
@@ -87,8 +87,6 @@ pygmt.makecpt(cmap="/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/
 for i in range(len(table1)):
     shmax_plot(table1['lon'][i], table1['lat'][i], table1['down'][i], table1['up'][i], table1['AR'][i])
 
-#fig.colorbar(frame=["x"],#"af+l'Depth (km)'", 
-#             position="JMR+w10/0.5+o3/0c+mn+")#+w-3/0.25+o0.3/0.3c+mn+")
-
+fig.basemap(rose="jTL+w1.2c+lW,E,S,N+o0.1c/0.1c+f2") 
 
 fig.show()

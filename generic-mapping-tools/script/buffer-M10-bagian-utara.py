@@ -13,7 +13,7 @@ buffer05015 = gpd.read_file("/mnt/d/celebes-stress-inversion-project/Result/eps0
 
 # download and store earth relief
 grid = pygmt.datasets.load_earth_relief(resolution="30s", # resolution of earth relief
-                                        region=[117.5, 126, -3.5, 3.5],  #[118.5, 125, -2.5, 2.5], # boarder of map: [minlon, maxlon, minlat, maxlat]
+                                        region=[117.5, 126, -5.2, 3.5],  #[118.5, 125, -2.5, 2.5], # boarder of map: [minlon, maxlon, minlat, maxlat]
                                         registration="gridline")
 fig = pygmt.Figure()
 
