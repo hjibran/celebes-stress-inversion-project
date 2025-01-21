@@ -13,7 +13,7 @@ buffer05015 = gpd.read_file("/mnt/d/celebes-stress-inversion-project/Result/eps0
 
 # download and store earth relief
 grid = pygmt.datasets.load_earth_relief(resolution="30s", # resolution of earth relief
-                                        region=[118.5, 123, -5.5 , -2], # boarder of map: [minlon, maxlon, minlat, maxlat]
+                                        region=[118.5, 123, -5.1 , -2], # boarder of map: [minlon, maxlon, minlat, maxlat]
                                         registration="gridline")
 fig = pygmt.Figure()
 
@@ -65,12 +65,6 @@ fig.plot(x=[122.65, 123.1], y=[0.38, 0.54], pen="1.5p,black")
 fig.text(x=124.7, y=2, text="Manado", font=font)
 fig.plot(x=[124.7, 124.8], y=[1.88, 1.49], pen="1.5p,black")
 """
-fig.basemap(
-    rose="jBL+w1.2c+lW,E,S,N+o0.1c/0.1c+f2",
-    #map_scale="jBL+w200k+o0.45c/0.5c+f+lkm"
-) 
-#fig.plot(x=118.8, y=4.85, style="r4.1c/1.5c", pen="1p,black", fill="white")
-#fig.legend(position="JTL+o0.5/0.5c", box=False)
+fig.basemap(rose="jBL+w1c+lW,E,S,N+o0.1c/0.1c+f2")
 
-#fig.savefig("/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/maps/class-boundaries.png")
 fig.show()

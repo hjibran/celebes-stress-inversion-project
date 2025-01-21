@@ -4,7 +4,7 @@ import pygmt
 import pandas as pd
 import geopandas as gpd
 
-data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/data/siap-olah/fm50km7mw.csv")
+data = pd.read_csv("/mnts/d/celebes-stress-inversion-project/data/siap-olah/fm50km7mw.csv")
 FM = data.iloc[:, [3, 2, 4, 6, 7, 8, 5]]
 FM.columns = ["longitude", "latitude", "depth", "strike", "dip", "rake", "magnitude"]
 buffer03515 = gpd.read_file("/mnt/d/celebes-stress-inversion-project/Result/eps0.35min15-final/eps0.35pts15-bagian-utara.shp")
@@ -13,7 +13,7 @@ buffer05015 = gpd.read_file("/mnt/d/celebes-stress-inversion-project/Result/eps0
 
 # download and store earth relief
 grid = pygmt.datasets.load_earth_relief(resolution="30s", # resolution of earth relief
-                                        region=[117.5, 126, -5.2, 3.5],  #[118.5, 125, -2.5, 2.5], # boarder of map: [minlon, maxlon, minlat, maxlat]
+                                        region=[117.5, 126, -4.85, 3.5],  #[118.5, 125, -2.5, 2.5], # boarder of map: [minlon, maxlon, minlat, maxlat]
                                         registration="gridline")
 fig = pygmt.Figure()
 
@@ -65,12 +65,6 @@ fig.plot(x=[122.45, 123.1], y=[0.21, 0.54], pen="1.5p,black")
 fig.text(x=124.45, y=2.10, text="Manado", font=font)
 fig.plot(x=[124.7, 124.8], y=[1.88, 1.49], pen="1.5p,black")
 """
-fig.basemap(
-    rose="jBR+w1.3c+lW,E,S,N+o0.2c/0.2c+f2",
-    #map_scale="jBL+w200k+o0.45c/0.5c+f+lkm"
-) 
-#fig.plot(x=118.8, y=4.85, style="r4.1c/1.5c", pen="1p,black", fill="white")
-#fig.legend(position="JTL+o0.5/0.5c", box=False)
+fig.basemap(rose="jBR+w1.3c+lW,E,S,N+o0.2c/0.2c+f2") 
 
-#fig.savefig("/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/maps/class-boundaries.png")
 fig.show()

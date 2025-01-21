@@ -1,0 +1,23 @@
+                              Minimum Point: 15, Epsilon: 0.35                              
+|------------------------------------------------------------------------------------------|
+| Simpson tanpa bootstrap | Simpson dengan bootstrap | Simpson dengan bootstrap modifikasi |
+|-------------------------|--------------------------|-------------------------------------|
+|       2.20 (TrPr)       |    2.19 ± 0.05 (TrPr)    |          2.19 ± 0.05 (TrPr)         |
+|       2.37 (PrCm)       |    2.40 ± 0.23 (PrCm)    |          2.40 ± 0.23 (PrCm)         |
+|       2.11 (TrPr)       |    1.67 ± 0.60 (PrSS)    |          2.15 ± 0.12 (TrPr)         |
+|       2.23 (TrPr)       |    2.29 ± 0.21 (PrCm)    |          2.29 ± 0.21 (PrCm)         |
+|       2.14 (TrPr)       |    1.74 ± 0.63 (PrSS)    |          2.20 ± 0.16 (TrPr)         |
+|       2.25 (PrCm)       |    2.33 ± 0.20 (PrCm)    |          2.33 ± 0.20 (PrCm)         |
+|       1.89 (TrPr)       |    1.33 ± 0.61 (PrSS)    |          1.82 ± 0.14 (TrPr)         |
+|       2.14 (TrPr)       |    1.80 ± 0.67 (TrPr)    |          2.26 ± 0.21 (PrCm)         |
+|       2.68 (PrCm)       |    2.55 ± 0.34 (PrCm)    |          2.56 ± 0.33 (PrCm)         |
+|       1.46 (PrSS)       |    1.29 ± 0.46 (PrSS)    |          1.45 ± 0.32 (PrSS)         |
+|------------------------------------------------------------------------------------------|
+Keterangan:
+RdEx = Radial Extention     
+PrEx = Pure Extention     
+TrTn = Trans Tensive     
+PrSS = Pure Strike Slip     
+TrPr = Trans Pressive     
+PrCm = Pure Compressive     
+RdCm = Radial Compressive
