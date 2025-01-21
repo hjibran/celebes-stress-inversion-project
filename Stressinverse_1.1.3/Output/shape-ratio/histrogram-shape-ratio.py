@@ -15,6 +15,7 @@ bins = np.arange(0, 1 + bin_width, bin_width)  # Membuat array batas bin dengan 
 
 
 def plot_histogram(area):
+    print(area)
     data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/shape-ratio/{}.csv".format(area))
 
     ax = sns.histplot(data, x="shape ratio", 
