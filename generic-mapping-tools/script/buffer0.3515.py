@@ -21,7 +21,7 @@ fig = pygmt.Figure()
 fig.grdimage(grid=grid, # call grid
              frame=["a", "EWSN"],#, "+tPulau Sulawesi"],
              projection="M20c",
-             cmap= "/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt")
+             cmap= 'oleron')#"/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt")
 
 #fig.basemap(region=[117.5, 127.5, -8.5, 5.5], frame=["WNES", "a"], projection="M20c")
 fig.coast(water="white")
@@ -37,9 +37,9 @@ fig.plot(
     fill="black",
     label="Trench"
 )
-fig.plot(x=FM.longitude, y=FM.latitude, style="c0.1c", fill='black', label="Epicenter")
+fig.plot(x=FM.longitude, y=FM.latitude, style="c0.1c", fill='darkgray', pen='black', label="Epicenter")
 
-fig.plot(data=buffer03515, pen="2.5p,springgreen3", label="Cluster Boundaries")
+fig.plot(data=buffer03515, pen="2.5p,purple", label="Cluster Boundaries")
 #fig.plot(data=buffer04015, pen="1p,blue", label="ε=0.40 MinPts=15")
 #fig.plot(data=buffer05015, pen="1p,red", label="ε=0.50 MinPts=15")
 

@@ -21,10 +21,10 @@ fig = pygmt.Figure()
 fig.grdimage(grid=grid, # call grid
              frame=["a", "EWSN"],#, "+tPulau Sulawesi"],
              projection="M20c",
-             cmap= "/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt")
+             cmap= "oleron")#"/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt")
 
 #fig.basemap(region=[117.5, 127.5, -8.5, 5.5], frame=["WNES", "a"], projection="M20c")
-fig.coast(water="white")
+#fig.coast(water="white")
 fig.plot(
     data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/indonesiafaults.gmt", 
     pen="1p,black"
@@ -35,11 +35,11 @@ fig.plot(
     style="f1c/0.2c+l+t", 
     fill="black"
 )
-fig.plot(x=FM.longitude, y=FM.latitude, style="c0.1c", fill='black')
+fig.plot(x=FM.longitude, y=FM.latitude, style="c0.1c", fill='darkgray', pen='black')
 
-fig.plot(data=buffer03515, pen="2p,springgreen3", label="ε=0.35 MinPts=15")
-fig.plot(data=buffer04015, pen="2p,gold2", label="ε=0.40 MinPts=15")
-fig.plot(data=buffer05015, pen="2p,tomato", label="ε=0.50 MinPts=15")
+fig.plot(data=buffer03515, pen="2p,purple", label="ε=0.35 MinPts=15")
+fig.plot(data=buffer04015, pen="2p,yellow", label="ε=0.40 MinPts=15")
+fig.plot(data=buffer05015, pen="2p,red", label="ε=0.50 MinPts=15")
 
 fill = "red"
 fig.plot(x=119.4, y=-5.16, style="s0.25c", fill=fill, pen="1p,black")
@@ -67,7 +67,7 @@ fig.basemap(
     rose="jBL+w1.8c+lW,E,S,N+o0.5c/0.5c+f2",
     #map_scale="jBL+w200k+o0.45c/0.5c+f+lkm"
 ) 
-fig.plot(x=118.8, y=4.85, style="r4.1c/1.5c", pen="1p,black", fill="white")
+fig.plot(x=118.85, y=5.34, style="r4.1c/1.5c", pen="1p,black", fill="white")
 fig.legend(position="jTL+o0.5/0.5c", box=False)
 
 #fig.savefig("/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/maps/class-boundaries.png")

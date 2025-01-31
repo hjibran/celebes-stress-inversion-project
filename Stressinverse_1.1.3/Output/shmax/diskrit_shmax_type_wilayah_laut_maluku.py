@@ -49,35 +49,86 @@ import pygmt
 
 fig = pygmt.Figure()
 
-#grid = pygmt.datasets.load_earth_relief(resolution="30s", # resolution of earth relief
-#                                        region=[117.5, 127.5, -8.5, 5.5], # boarder of map: [minlon, maxlon, minlat, maxlat]
-#                                        registration="gridline")
+grid = pygmt.datasets.load_earth_relief(resolution="30s", # resolution of earth relief
+                                        registration="gridline",
+                                        region=[123.3, 129.5, -2.05, 5.3],
+                                        )
 
-#fig.grdimage(grid=grid, # call grid
-#             frame=["a"],
-#             projection="M20c",
-#             cmap= "/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt")
+fig.grdimage(grid=grid,
+             projection='M10c',
+             frame=["a1", "EWSN"],
+             cmap= "/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt")
 
 fig.coast(region=[123.3, 129.5, -2.05, 5.3],
-          projection='M10c',
-          frame=["a1", "EWSN"],
-          land='lightgray',
+          #land='lightgray',
           resolution='f',
+          water='white'
           #shorelines='0.25p,black,solid'
           )
 
 fig.plot(
     data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/indonesiafaults.gmt", 
-    pen="0.6p,darkgray",
+    pen="0.6p,dimgray",
     label="Patahan"
 )
 fig.plot(
     data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/trench.gmt", 
-    pen="0.8p,darkgray", 
+    pen="0.8p,dimgray", 
     style="f1c/0.2c+l+t", 
-    fill="darkgray",
+    fill="dimgray",
     label="Subduksi"
 )
+
+#df = pd.read_csv("/mnt/d/plate-motion-itrf96-project-location.csv")
+#
+#fig.velo(
+#    data=df,
+#    spec="e0.05/0.05+f12",
+#    uncertaintyfill="gold2",
+#    pen="2.5p,gold2",
+#    line=True,
+#    vector="0.4c+e0.4+ggold2+p.01p,black"
+#)
+#
+#x=123.8
+#y=5
+#
+#fig.plot(
+#    x=x+0.625, 
+#    y=y-0.09, 
+#    style="r2.3/0.75", 
+#    fill="white", 
+#    pen="0.5p,black"
+#)
+#
+#df1 = pd.DataFrame(
+#    data={
+#        "x": [x],
+#        "y": [y],
+#        "east_velocity": [40],
+#        "north_velocity": [0],
+#        "east_sigma": [0],
+#        "north_sigma": [0],
+#        "correlation_EN": [0],
+#        "SITE": [''],
+#    }
+#)
+#
+#fig.velo(
+#    data=df1,
+#    spec="e0.05/0.05+f12",
+#    uncertaintyfill="gold2",
+#    pen="2.5p,gold2",
+#    line=True,
+#    vector="0.4c+e0.4+ggold2+p.01p,black"
+#)
+#
+#fig.text(
+#    x = x+0.55,
+#    y = y-0.15,
+#    text = "40mm/year",
+#    font="gold2"
+#)
 
 os.system('gmt makecpt -Cdarkblue,blue,green,red,darkred -T0/3/0.02 -Z > /mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/shmax/custom.cpt')
 sebaran = np.array([0,3])
