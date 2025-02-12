@@ -120,7 +120,7 @@ fig.basemap(rose="jTL+w0.9c+lW,E,S,N+o0.3c/0.3c+f2",
              ) 
 #fig.legend(position="jTL+o0.2/1.6c", box=True)
 
-#Plot colorbar
+# Plot colorbar
 #fig.colorbar(frame=["x+lDepth (km)"],#"af+l'Depth (km)'", 
 #             position="JMR+w-10/0.5+o3/0c+mn+")#+w-3/0.25+o0.3/0.3c+mn+")
 
