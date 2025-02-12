@@ -90,4 +90,8 @@ for i in range(len(beaudouin)):
 for i in range(len(table1)):
     shmax_plot(table1['lon'][i], table1['lat'][i], table1['down'][i], table1['up'][i], table1['AR'][i])
     
+fig.basemap(
+    rose="jBR+w1.3c+lW,E,S,N+o0.3c/0.3c+f2"
+) 
+
 fig.show()
