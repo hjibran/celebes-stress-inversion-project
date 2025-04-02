@@ -169,7 +169,7 @@ def plot_P_T_axes(strike,dip,rake):
 #         focal mechanisms (for plotting the P/T axes)                    #
 #                                                                         #
 #*************************************************************************#
-def plot_stress(tau,strike,dip,rake,plot):
+def plot_stress(tau,strike,dip,rake,plot,folder):
     
     import matplotlib.pyplot as plt
     import numpy as np
@@ -245,5 +245,5 @@ def plot_stress(tau,strike,dip,rake,plot):
         plt.show()
         plt.close()
     if plot == 2:
-        plt.savefig("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/PT_axes.png")
+        plt.savefig("{}PT_axes.png".format(folder)); print('plot PT tersimpan')
         plt.close()

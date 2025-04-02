@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
     # print  output: 2
     # statistic error: 3
     # to run all cluster: 4
-output = 4
+output = 1
 if output == 3:
     input_file = "/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15/stressinverse/data/cls{}.dat".format(sys.argv[1])
     seed = int(sys.argv[2])
@@ -34,9 +34,9 @@ elif output == 4:
     seed = int(sys.argv[3])
 else:
     # path to file input, file output, and seed (to initialize random bootstrap)
-    input_file = r"/mnt/d/celebes-stress-inversion-project/Result/eps0.35min15-final/stressinverse/cls9.dat"
-    output_file = r"/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/"
-    seed = 30
+    input_file = r"/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15-final/stressinverse/data/palu0.4after.dat"
+    output_file = r"/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps0.40pts15/new_shmax/palu_after_2018/"
+    seed = 1
 
 # plot option
     # plot with plt.show(): 1
@@ -155,6 +155,7 @@ or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2 = rm.read_mechanisms(input_file)
 # origin data
 # make function
 def orgn(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
+    print('run origin')
     import pandas as pd
     import numpy as np
 
@@ -171,6 +172,7 @@ def orgn(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
         org[0][21]\
         = run(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2,k)
 
+    print('origin selesai')
     # make a data frame for stress inversion output
     origin = pd.DataFrame(org, columns=
         ["tau11", "tau12", "tau13", "tau22", "tau23", "tau33",
@@ -201,6 +203,7 @@ def btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2, origin):
     
     idxs = [i for i in range(len(or_str1))]
     for i in range(N_bootstrap):
+        print("run bootstrap ke {}".format(i+1))
         idxs_boot = np.array([np.random.randint(0, len(or_str1)) for i in range(len(or_str1))])
         bt_str1 = or_str1[idxs_boot]
         bt_dip1 = or_dip1[idxs_boot]
@@ -225,7 +228,7 @@ def btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2, origin):
         sigma_vector_21[i] = sigma_vector_2_optimum[0]; sigma_vector_22[i] = sigma_vector_2_optimum[1]; sigma_vector_23[i] = sigma_vector_2_optimum[2]
         sigma_vector_31[i] = sigma_vector_3_optimum[0]; sigma_vector_32[i] = sigma_vector_3_optimum[1]; sigma_vector_33[i] = sigma_vector_3_optimum[2]
 
-
+    print('bootstrap selesai')
     # make a data frame for stress inversion output
     bootstrap = pd.DataFrame(boots, columns=
         ["tau11", "tau12", "tau13", "tau22", "tau23", "tau33",
@@ -276,14 +279,14 @@ error = pd.concat([confidence_data(bootstrap["azimuth sigma 1"]), confidence_dat
 
 if output == 1 or output == 4:
     # export to csv
-    origin.drop([1]).to_csv(output_file + "output_origin.csv", index=False)
-    bootstrap.to_csv(output_file + "output_bootstarap.csv", index=False)
+    origin.drop([1]).to_csv(output_file + "output_origin.csv", index=False); print('file origin tersimpan')
+    bootstrap.to_csv(output_file + "output_bootstarap.csv", index=False); print('file bootstrap tersimpan')
     error.insert(0, "value", ["Sigma1 Azimuth", "Sigma1 Plunge",\
                             "Sigma2 Azimuth", "Sigma2 Plunge",\
                             "Sigma3 Azimuth", "Sigma3 Plunge",\
                             "SHmax", "Shape Ratio",
                             "simpson index"])
-    error.to_csv(output_file + "output_error.csv", index=False)
+    error.to_csv(output_file + "output_error.csv", index=False); print('file error tersimpan')
 elif output == 2:
     print(origin.drop([1]))
     print(bootstrap)
@@ -329,6 +332,7 @@ def histo(title, data, plot, bin = 25):
             plt.show()
         elif plot == 2:
             plt.savefig(output_file + "{}.png".format(title))
+            print('plot {} tersimpan'.format(title))
 
 histo("Azimuth Sigma 1", bootstrap["azimuth sigma 1"], plot, "az")
 histo("Plunge sigma 1", bootstrap["plunge sigma 1"], plot, "pl")
@@ -343,9 +347,9 @@ histo("Simpson Index", bootstrap["simpson index"], plot, "ar")
 # ----------------------------------------------------------------------------------------
 # P/T axes and the optimum principal stress axes
 import plot_stress as plots
-plots.plot_stress(1,strike,dip,rake,plot)
+plots.plot_stress(1,strike,dip,rake,plot,output_file)
 
 # ----------------------------------------------------------------------------------------
 # confidence limiuts of the principal stress axes
 import plot_stress_axes as plotsa
-plotsa.plot_stress_axes(sigma_vector_1_statistics, sigma_vector_2_statistics, sigma_vector_3_statistics, plot)
+plotsa.plot_stress_axes(sigma_vector_1_statistics, sigma_vector_2_statistics, sigma_vector_3_statistics, plot,output_file)
