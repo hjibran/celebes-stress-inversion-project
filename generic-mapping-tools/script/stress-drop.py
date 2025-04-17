@@ -42,6 +42,7 @@ def theta_strike(geometry_fault, before, after):
     
     # Mengembalikan nilai theta dan delta theta
     return theta_before, delta_theta
+
 ### Fungsi pada patahan dengan arah gerak vertikal (Subduksi)
 def theta_dip(geometry_fault, before, after):
 
@@ -65,21 +66,33 @@ def histo(title, data, bin = 50):
 
 ## Menghitung Sebaran theta & delta thetha
 def sebaran_theta(nama, before, after):
+
+    # Membuat lokasi penyimpanan sebaran data hasil kalkulasi
     sebaran_theta       = np.zeros(250)
     sebaran_delta_theta = np.zeros(250)
     sebaran_stress_drop = np.zeros(250)
 
     for i in range(250):
-        theta, delta_theta_ = theta_strike(strike, before[i], after[i]) 
+
+        # Menghitung theta & delta theta
+        if nama == 'plunge':
+            theta, delta_theta_ = theta_dip(dip, before[i], after[i]) 
+        elif nama == 'azimuth' or 'shmax':
+            theta, delta_theta_ = theta_strike(strike, before[i], after[i]) 
+
+        # Menghitung stress drop
         stress_drop_ = stress_drop(theta, delta_theta_)
 
+        # Memasukkan nilai kedalam lokasi penyimpanan yang telah dibuat sebelumnya
         sebaran_theta[i]       = theta
         sebaran_delta_theta[i] = delta_theta_
         sebaran_stress_drop[i] = stress_drop_
 
-    histo('Sebaran Nilai Theta {}'.format(nama), sebaran_theta)
-    histo('Sebaran Nilai Delta Theta {}'.format(nama), sebaran_delta_theta)
-    histo('Sebaran Nilai Stress Drop {}'.format(nama), sebaran_stress_drop)
+    bootstrap = pd.DataFrame(data={'theta':sebaran_theta, 'delta theta':sebaran_delta_theta, 'stress drop':sebaran_stress_drop})
+
+    histo('Sebaran Nilai Theta', sebaran_theta)
+    histo('Sebaran Nilai Delta Theta', sebaran_delta_theta)
+    histo('Sebaran Nilai Stress Drop', sebaran_stress_drop)
 
     result = np.zeros((4,3))
 
@@ -98,7 +111,9 @@ def sebaran_theta(nama, before, after):
     result[2][2] = np.float64((np.percentile(sebaran_stress_drop, 97.5)+np.percentile(sebaran_stress_drop, 2.5))/2)
     result[3][2] = np.float64((np.percentile(sebaran_stress_drop, 97.5)-np.percentile(sebaran_stress_drop, 2.5))/2)
 
-    return pd.DataFrame(result, columns=['theta','delta theta','stress drop'])
+    tabel = pd.DataFrame(result, columns=['theta','delta theta','stress drop'])
+
+    return tabel, bootstrap
 
 
 #---------------------------------------------------------------------#
@@ -122,7 +137,7 @@ strike = 168
 dip = 57
 
 # Menghitung sebaran theta dan delta theta
-hasil = sebaran_theta("Azimuth", sebaran_nilai_azimuth_before, sebaran_nilai_azimuth_after)
+hasil, bootstrap = sebaran_theta("shmax", sebaran_nilai_shmax_before, sebaran_nilai_shmax_after)
 
 print(hasil)
 
@@ -142,13 +157,45 @@ for i in [-1, -0.8, -0.6, -0.4, -0.2, 0.2, 0.4, 0.6, 0.8, 1]:
     plt.plot(axis_theta,delta_th,'black')
     plt.text(80, delta_th[800], str(i), fontsize=18)
 
-plt.plot(hasil['theta'][2], hasil['delta theta'][2], 'ro', markersize=14)
+for i in range(250):
+#     if hasil['stress drop'][1] < bootstrap['stress drop'][i] < hasil['stress drop'][0]:
+#         plt.plot(bootstrap['theta'][i], bootstrap['delta theta'][i], 'o', color='gray', markersize=6)
+    plt.plot(bootstrap['theta'][i], bootstrap['delta theta'][i], 'o', color='gray', markersize=6)
 plt.plot([hasil['theta'][0],hasil['theta'][1]], [hasil['delta theta'][2],hasil['delta theta'][2]], '-r', marker='|', markevery=[0, -1], markersize=12, markeredgewidth=2)
 plt.plot([hasil['theta'][2],hasil['theta'][2]], [hasil['delta theta'][0],hasil['delta theta'][1]], '-r', marker='_', markevery=[0, -1], markersize=12, markeredgewidth=2)
+plt.plot(hasil['theta'][2], hasil['delta theta'][2], 'ro', markersize=14)
 
 plt.xlabel(r"$\theta$ (degree)", fontsize=30)
 plt.ylabel(r"$\Delta\theta$ (degree)", fontsize=30)
-plt.xlim(0,100)
+plt.xlim(0,90)
+plt.xticks(fontsize=20)
+plt.ylim(-45,45)
+plt.yticks(fontsize=20)
+plt.grid()
+plt.show()
+plt.close()
+
+print('Nilai stress drop: {}'.format(stress_drop(hasil['theta'][2], hasil['delta theta'][2])))
+
+plt.figure(figsize=(15,13))
+
+## Menghitung nilai delta theta untuk masing-masing stress drop
+for i in [-1, -0.8, -0.6, -0.4, -0.2, 0.2, 0.4, 0.6, 0.8, 1]:
+    delta_th = [delta_theta(i, x) for x in axis_theta]
+    plt.plot(axis_theta,delta_th,'black')
+    plt.text(80, delta_th[800], str(i), fontsize=18)
+
+#for i in range(250):
+#     if hasil['stress drop'][1] < bootstrap['stress drop'][i] < hasil['stress drop'][0]:
+#         plt.plot(bootstrap['theta'][i], bootstrap['delta theta'][i], 'o', color='gray', markersize=6)
+#     plt.plot(bootstrap['theta'][i], bootstrap['delta theta'][i], 'o', color='gray', markersize=6)
+plt.plot([hasil['theta'][0],hasil['theta'][1]], [hasil['delta theta'][2],hasil['delta theta'][2]], '-r', marker='|', markevery=[0, -1], markersize=12, markeredgewidth=2)
+plt.plot([hasil['theta'][2],hasil['theta'][2]], [hasil['delta theta'][0],hasil['delta theta'][1]], '-r', marker='_', markevery=[0, -1], markersize=12, markeredgewidth=2)
+plt.plot(hasil['theta'][2], hasil['delta theta'][2], 'ro', markersize=14)
+
+plt.xlabel(r"$\theta$ (degree)", fontsize=30)
+plt.ylabel(r"$\Delta\theta$ (degree)", fontsize=30)
+plt.xlim(0,90)
 plt.xticks(fontsize=20)
 plt.ylim(-45,45)
 plt.yticks(fontsize=20)
