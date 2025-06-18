@@ -34,8 +34,8 @@ elif output == 4:
     seed = int(sys.argv[3])
 else:
     # path to file input, file output, and seed (to initialize random bootstrap)
-    input_file = r"/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15-final/stressinverse/data/palu0.4after.dat"
-    output_file = r"/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps0.40pts15/new_shmax/palu_after_2018/"
+    input_file = r"Stressinverse_1.1.3/Output/eps0.40pts15/new_shmax/palukoro-with-data-kusumawati/datawithkusumawati(A-D)aftertoinverse.dat"
+    output_file = r"Stressinverse_1.1.3/Output/eps0.40pts15/new_shmax/palukoro-with-data-kusumawati/datawithkusumawati(A-D)after/"
     seed = 1
 
 # plot option
@@ -59,8 +59,8 @@ N_realizations = 10
 shape_ratio_axis = np.arange(0+0.0125, 1, 0.025)
  
 # interval for friction values
-friction_min  = 0.40
-friction_max  = 1.00
+friction_min  = 0.000001
+friction_max  = 1.000001
 friction_step = 0.05
 
 

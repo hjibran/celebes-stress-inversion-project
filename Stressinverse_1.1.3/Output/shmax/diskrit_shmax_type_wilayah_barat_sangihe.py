@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import os
 
-def shmax_plot(lon, lat, down, up, AR):
+def shmax_plot(lon, lat, down, up, AR, clus):
     if down <=180:
         down1 = down+180
     elif down > 180:
@@ -11,7 +11,7 @@ def shmax_plot(lon, lat, down, up, AR):
         up1 = up+180
     elif up > 180:
         up1 = up -180
-    '''
+    
     if 0 <= AR < 0.25:
         fill = "darkblue"
     elif 0.25 <= AR < 0.75:
@@ -26,6 +26,13 @@ def shmax_plot(lon, lat, down, up, AR):
         fill = "red"
     else:
         fill = "darkred"
+
+    if clus == 15.35:
+        pen = '2p,springgreen3'
+    elif clus == 15.40:
+        pen = '2p,gold2'
+    elif clus == 15.50:
+        pen = '2p,tomato'
     '''
     if 0 <= AR < 1:
         fill = "blue"
@@ -33,9 +40,11 @@ def shmax_plot(lon, lat, down, up, AR):
         fill = "green"
     elif 2.0 <= AR < 3:
         fill = "red"
-    
+
+    pen = 'black'
+    '''
     data = [[lon, lat, 360-up+90, 360-down+90], [lon, lat, 360-up1+90, 360-down1+90]]
-    fig.plot(data=data, style="w2c", fill=fill, cmap=False, transparency=25, pen="black")
+    fig.plot(data=data, style="w2c", fill=fill, cmap=False, transparency=25, pen=pen)
 
 table = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/shmax/shmax_wilayah_barat_sangihe.csv")
 
@@ -96,8 +105,10 @@ pygmt.makecpt(cmap="/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/
               series=[sebaran.min(), sebaran.max()])
 
 for i in range(len(table1)):
-    shmax_plot(table1['lon'][i], table1['lat'][i], table1['down'][i], table1['up'][i], table1['AR'][i])
+    shmax_plot(table1['lon'][i], table1['lat'][i], table1['down'][i], table1['up'][i], table1['AR'][i], table['name'][i])
 
 fig.basemap(rose="jBL+w1.2c+lW,E,S,N+o0.1c/0.1c+f2")
 
 fig.show()
+
+print(table1)

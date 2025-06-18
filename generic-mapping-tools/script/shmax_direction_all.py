@@ -132,5 +132,5 @@ for i in range(10):
 
     shmax_plot(mean_longitude, mean_latitude, min_shmax, max_shmax)
 
-fig.savefig("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/shmax.png")
-#fig.show()
+#fig.savefig("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/shmax.png")
+fig.show()

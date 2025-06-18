@@ -16,26 +16,26 @@ grid = pygmt.datasets.load_earth_relief(resolution="30s", # resolution of earth 
                                         )
 
 fig.grdimage(grid=grid,
-             projection='M10c',
+             projection='M75c',
              frame=["a2", "EWSN"],
-             cmap= 'oleron')#"/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt")
+             cmap= "/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt")
 
-#fig.coast(region=region,
-#          #land='lightgray',
-#          resolution='f',
-#          water='white'
-#          #shorelines='0.25p,black,solid'
-#          )
+fig.coast(region=region,
+          #land='lightgray',
+          resolution='f',
+          water='white'
+          #shorelines='0.25p,black,solid'
+          )
 
 fig.plot(
     data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/indonesiafaults.gmt", 
-    pen="0.6p,black",#dimgray",
+    pen="3.75p,black",#dimgray",
     label="Patahan"
 )
 fig.plot(
     data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/trench.gmt", 
-    pen="0.8p,black",#dimgray", 
-    style="f1c/0.2c+l+t", 
+    pen="4.5p,black", 
+    style="f3.75c/0.75c+l+t", 
     fill="black",#dimgray",
     label="Subduksi"
 )
@@ -47,11 +47,12 @@ sula=[125.5, 128, -3.5, -2.25]
 sangihe=[124.4, 126.9, 4, 6.6]
 ntt=[124.2, 126.8, -9.2, -7.2]
 
-x, y = inset(ntt)
-fig.plot(x=x,
-         y=y,
-         pen='2p,darkred'
-)
+for i in [utara, selatan, maluku, sula, sangihe, ntt]:
+    x, y = inset(i)
+    fig.plot(x=x,
+             y=y,
+             pen='2p,black'
+    )
 
 fig.basemap(rose="jTL+w1.2c+lW,E,S,N+o0.1c/0.1c+f2") 
 

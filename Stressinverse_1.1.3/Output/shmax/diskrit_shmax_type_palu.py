@@ -3,8 +3,8 @@ import pandas as pd
 import geopandas as gpd
 import os
 
-# Peruntukan 'shmax' / 'sebaran data before' / 'sebaran data after
-untuk = 'sebaran data after'
+# Peruntukan 'shmax' /  'sebaran data'
+untuk = 'sebaran data'
 
 # Membuat fungsi plot shmax
 def shmax_plot(lon, lat, down, up, fill):
@@ -106,7 +106,7 @@ fig.plot(data=bufferpalu, pen="1.5p,black,--")#, label="ε=0.50 MinPts=15")
 
 if untuk == 'sebaran data before':
     focmec = FMbefore
-elif untuk == 'sebaran data after':
+elif untuk == 'sebaran data':
     focmec = FMafter
 
 if untuk != 'shmax':
