@@ -53,9 +53,9 @@ def euler_to_velocity(euler, xo, yo, x, y):
     return komponen_x_kecepatan_linear, komponen_y_kecepatan_linear
 
 data = pd.read_csv('/mnt/d/celebes-stress-inversion-project/data/Soquet2006/velocity.csv')
-data = pd.read_csv('/mnt/d/celebes-stress-inversion-project/data/Soquet2006/stationv3.csv')
+#data = pd.read_csv('/mnt/d/celebes-stress-inversion-project/data/Soquet2006/stationv3.csv')
 boundary = gpd.read_file("/mnt/d/celebes-stress-inversion-project/data/Soquet2006/soquet2006plateboundary(LN).shp")
-print(data)
+#print(data)
 
 lon = data['lon']
 lat = data['lat']
@@ -109,11 +109,14 @@ fig.velo(
         #"north_sigma": data['dVlon'],
         #"correlation_EN": data['Corr.']
     },
-    spec="e0.1/0.39+f18",
+    spec="e0.03/0.001+f1",
     #uncertaintyfill="lightblue1",
     pen="0.6p,red",
     line=True,
-    vector="0.3c+p1p+e+gred"
+    vector="0.2c+p1p+e+gred"
 )
+
+table = pd.DataFrame({'lon':lon, 'lat':lat, 'x':x, 'y':y})
+table.to_csv('/mnt/d/celebes-stress-inversion-project/data/Soquet2006/kecepatan_euler.csv')
 
 fig.show()

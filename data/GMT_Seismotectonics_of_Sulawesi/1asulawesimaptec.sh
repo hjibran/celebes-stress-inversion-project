@@ -40,7 +40,7 @@ set color1=black
 
 #ploting
 gmt set PS_MEDIA A4
-gmt begin 2asulawesimaptec png
+gmt begin 1asulawesimaptec png
 gmt set FONT_ANNOT 10
 gmt set FONT 10,Helvetica-Bold,black
 gmt set MAP_FRAME_TYPE=plain

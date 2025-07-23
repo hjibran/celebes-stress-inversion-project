@@ -51,6 +51,106 @@ def stress_ax(lon, lat, direction, regime):
         fill=fill,
     )
 
+def principal_stress(lon, lat, direction, regime):
+    if regime == "C":
+        fill = 'darkred'
+
+        pen='2.75p,{}'.format(fill)
+        length = 1
+        style='v0.4c+ba'
+
+        fig.plot(
+            x=[lon],
+            y=[lat],
+            style=style,
+            direction=[[-(direction-360)-90], [length]],
+            pen=pen,
+            fill=fill,
+        )
+
+        fig.plot(
+            x=[lon],
+            y=[lat],
+            style=style,
+            direction=[[-(direction-360)-90], [-length]],
+            pen=pen,
+            fill=fill,
+        )
+    elif regime == "SS":
+        fill = 'darkred'
+
+        pen='2.75p,{}'.format(fill)
+        length = 1
+        style='v0.4c+ba'
+
+        fig.plot(
+            x=[lon],
+            y=[lat],
+            style=style,
+            direction=[[-(direction-360)-90], [length]],
+            pen=pen,
+            fill=fill,
+        )
+
+        fig.plot(
+            x=[lon],
+            y=[lat],
+            style=style,
+            direction=[[-(direction-360)-90], [-length]],
+            pen=pen,
+            fill=fill,
+        )
+
+        fill = 'darkblue'
+        
+        pen='2.75p,{}'.format(fill)
+        length = 0.75
+        style='v0.4c+e'
+
+        fig.plot(
+            x=[lon],
+            y=[lat],
+            style=style,
+            direction=[[-(direction-360)-180], [-length]],
+            pen=pen,
+            fill=fill,
+        )
+
+        fig.plot(
+            x=[lon],
+            y=[lat],
+            style=style,
+            direction=[[-(direction-360)-180], [length]],
+            pen=pen,
+            fill=fill,
+        )
+
+    elif regime == "E":
+        fill = 'darkblue'
+        
+        pen='2.75p,{}'.format(fill)
+        length = 0.75
+        style='v0.4c+e'
+
+        fig.plot(
+            x=[lon],
+            y=[lat],
+            style=style,
+            direction=[[-(direction-360)-180], [-length]],
+            pen=pen,
+            fill=fill,
+        )
+
+        fig.plot(
+            x=[lon],
+            y=[lat],
+            style=style,
+            direction=[[-(direction-360)-180], [length]],
+            pen=pen,
+            fill=fill,
+        )
+    
+
 beaudouin = pd.read_csv('/mnt/d/celebes-stress-inversion-project/data/Beaudouin2003/Beaudouin-stress.csv')
 table = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/shmax/shmax.csv")
 
@@ -85,10 +185,10 @@ pygmt.makecpt(cmap="/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/
               series=[sebaran.min(), sebaran.max()])
 
 for i in range(len(beaudouin)):
-    stress_ax(beaudouin['lon'][i], beaudouin['lat'][i], beaudouin['Shmax'][i], beaudouin['Regime'][i])
+    principal_stress(beaudouin['lon'][i], beaudouin['lat'][i], beaudouin['Az1'][i], beaudouin['Regime'][i])
 
-for i in range(len(table1)):
-    shmax_plot(table1['lon'][i], table1['lat'][i], table1['down'][i], table1['up'][i], table1['AR'][i])
+#for i in range(len(table1)):
+    #shmax_plot(table1['lon'][i], table1['lat'][i], table1['down'][i], table1['up'][i], table1['AR'][i])
     
 fig.basemap(
     rose="jBR+w1.3c+lW,E,S,N+o0.3c/0.3c+f2"

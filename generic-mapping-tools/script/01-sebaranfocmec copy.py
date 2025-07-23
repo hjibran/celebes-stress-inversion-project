@@ -14,14 +14,20 @@ grid = pygmt.datasets.load_earth_relief(resolution="30s", # resolution of earth 
 # begin fig object
 fig = pygmt.Figure()
 
+pygmt.makecpt(cmap="terra",#'cork' 'broc
+              #reverse = True, 
+              series=[-12000,12000,1],
+              #color_model="+c0-10,10-20,20-30,30-40,40-50",
+)
 # plot grid image
 fig.grdimage(grid=grid, # call grid
              frame=["a", "EWSN"],#, "+tPulau Sulawesi"],
              projection="M10c",
-             cmap= 'gray'#"/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt"
+             cmap= True,
+             shading = True#'gray'#"/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt"
 )
-fig.coast(shorelines='1p,black'
-
+fig.coast(shorelines='1p,dimgray', 
+          #water='skyblue'
 )
 
 # display color bar from grid image
@@ -117,7 +123,7 @@ def struktur(size, color):
     fig.plot(data=dir+'trench.gmt', style='f1/0.075i+l+t', pen="{}p,{}".format(a, color), fill=color)
     fig.plot(data=dir+'indonesiafaults.gmt', pen="{}p,{}".format(c, color))
     
-struktur(0.3, 'black')
+struktur(0.75, 'dimgray')
 
 fill = "black"
 fig.plot(x=119.4, y=-5.16, style="s0.175c", fill=fill, pen="1p,black")
@@ -163,7 +169,7 @@ FM.columns = ["longitude", "latitude", "depth", "strike", "dip", "rake", "magnit
 #    depth_group.append(group)
 #depth_group = pd.DataFrame(np.array(depth_group), columns=['group'])
 
-pygmt.makecpt(cmap="seis", 
+pygmt.makecpt(cmap="hot", 
               reverse = True, 
               series=[FM.depth.min(),FM.depth.max(), 10],
               #color_model="+c0-10,10-20,20-30,30-40,40-50",
