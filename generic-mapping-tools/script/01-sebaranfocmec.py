@@ -18,9 +18,11 @@ fig = pygmt.Figure()
 fig.grdimage(grid=grid, # call grid
              frame=["a", "EWSN"],#, "+tPulau Sulawesi"],
              projection="M10c",
-             cmap= 'gray'#"/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt"
+             shading = True,
+             cmap= "/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt"
 )
-fig.coast(shorelines='1p,black'
+fig.coast(
+    shorelines='1p,dimgray'
 
 )
 
@@ -117,9 +119,9 @@ def struktur(size, color):
     fig.plot(data=dir+'trench.gmt', style='f1/0.075i+l+t', pen="{}p,{}".format(a, color), fill=color)
     fig.plot(data=dir+'indonesiafaults.gmt', pen="{}p,{}".format(c, color))
     
-struktur(0.3, 'black')
+struktur(0.3, 'Black')
 
-fill = "black"
+fill = "red"
 fig.plot(x=119.4, y=-5.16, style="s0.175c", fill=fill, pen="1p,black")
 fig.plot(x=119.8, y=-0.90, style="s0.175c", fill=fill, pen="1p,black")
 fig.plot(x=118.9, y=-2.68, style="s0.175c", fill=fill, pen="1p,black")
@@ -163,7 +165,7 @@ FM.columns = ["longitude", "latitude", "depth", "strike", "dip", "rake", "magnit
 #    depth_group.append(group)
 #depth_group = pd.DataFrame(np.array(depth_group), columns=['group'])
 
-pygmt.makecpt(cmap="seis", 
+pygmt.makecpt(cmap='hot',#"seis", 
               reverse = True, 
               series=[FM.depth.min(),FM.depth.max(), 10],
               #color_model="+c0-10,10-20,20-30,30-40,40-50",
@@ -201,8 +203,8 @@ fig.basemap(rose="jTL+w0.9c+lW,E,S,N+o0.3c/0.3c+f2",
 #fig.legend(position="jTL+o0.2/1.6c", box=True)
 
 # Plot colorbar
-#fig.colorbar(frame=["x+lDepth (km)"],#"af+l'Depth (km)'", 
-#             position="JMR+w-10/0.5+o3/0c+mn+")#+w-3/0.25+o0.3/0.3c+mn+")
+fig.colorbar(frame=["x+lDepth (km)"],#"af+l'Depth (km)'", 
+             position="jBL+w-3/0.25+o0.25/1c+mn+")#+w-3/0.25+o0.3/0.3c+mn+")
 
 # show picture
 fig.show()

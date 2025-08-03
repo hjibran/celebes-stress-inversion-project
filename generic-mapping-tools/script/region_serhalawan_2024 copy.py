@@ -179,10 +179,10 @@ def struktur(size, color):
     
 fig = pygmt.Figure()
 grid = pygmt.datasets.load_earth_relief(resolution="30s", # resolution of earth relief
-                                        region=[117.9, 126.2, -7.2, 2.5], #[117.5, 128, -9, 6] boarder of map: [minlon, maxlon, minlat, maxlat]
+                                        region= [117.9, 126.2, -7.2, 2.5], #[117.5, 128, -9, 6] boarder of map: [minlon, maxlon, minlat, maxlat]
                                         registration="gridline")
 
-pygmt.makecpt(cmap='grayC', series=f"{-12000}/{6000}/{1}")
+pygmt.makecpt(cmap='terra', series=f"{-12000}/{6000}/{1}")
 
 fig.grdimage(grid=grid, # call grid
              frame=["a", "EWSN"],
@@ -229,6 +229,24 @@ fig.plot(data=region, pen="5p,red", label="microblock (Soquet, 2006)")
 beaudouin = pd.read_csv('/mnt/d/celebes-stress-inversion-project/data/Beaudouin2003/Beaudouin-stress.csv')
 #for i in range(len(beaudouin)):
     #principal_stress(beaudouin['lon'][i], beaudouin['lat'][i], beaudouin['Az1'][i], beaudouin['Regime'][i])
+
+gempa_besar = pd.read_csv('/mnt/d/celebes-stress-inversion-project/data/gempa-besar-sulawesi-GCMT.csv', comment='#')
+
+for i in range(len(gempa_besar)):
+    fig.plot(
+        x=gempa_besar['lon'][i],
+        y=gempa_besar['lat'][i],
+        style='a1.5c',
+        fill='yellow',
+        pen='2.5p,black'
+    )
+    fig.text(
+        x=gempa_besar['lon'][i], 
+        y=gempa_besar['lat'][i]-0.35,
+        text=gempa_besar['ket'][i], 
+        font="20p,Helvetica-Bold",
+        fill='white'
+    )
 
 fig.basemap(rose="jBL+3c+lW,E,S,N+o0.3c/0.3c+f2")
 

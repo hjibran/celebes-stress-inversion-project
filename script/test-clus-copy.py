@@ -37,7 +37,7 @@ def plot_stress(strike,dip,rake,kelas):
   # legend
   #plt.legend((sig1,sig2,sig3), ('sigma 1','sigma 2','sigma 3'), loc='lower right', fontsize = 14, numpoints=1)
   plt.legend(('sigma 1','sigma 2'), loc='lower right', fontsize = 14, numpoints=1)
-  plt.savefig('/mnt/d/celebes-stress-inversion-project/Result/DBSCAN/minpts{}eps{}/stressinverse{}.png'.format(min,eps,kelas+1))
+  plt.savefig('/mnt/d/celebes-stress-inversion-project/Result/DBSCAN/minpts{}eps{:.2f}/stressinverse{}.png'.format(min,eps,kelas+1))
    
 data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/data/siap-olah/fm50km7mw.csv")
 
@@ -56,8 +56,8 @@ Eps = [0.05,
 for min in Min: #range(10,20+1,5):
    for eps in Eps: #np.arange(0.05, 0.50+0.01, 0.05):
 
-    print('minpts{}eps{} mulai'.format(min,eps))
-    os.system('mkdir /mnt/d/celebes-stress-inversion-project/Result/DBSCAN/minpts{}eps{}'.format(min,eps))
+    print('minpts{}eps{:.2f} mulai'.format(min,eps))
+    #os.system('mkdir /mnt/d/celebes-stress-inversion-project/Result/DBSCAN/minpts{}eps{:.2f}'.format(min,eps))
 
     x = data.iloc[:, [3, 2]]
     clustering = DBSCAN(eps=eps, min_samples=min).fit(x)
@@ -89,7 +89,7 @@ for min in Min: #range(10,20+1,5):
         dat = temp_data.query('corepoint != 0')
         #if len(core_point_per_klaster) > 0:
         core_point_per_klaster.append(dat)
-        print('    core point {} selesai'.format(kelas))
+        print('    core point {} selesai'.format(kelas+1))
         print(len(dat))
 
     fig = pygmt.Figure()
@@ -204,14 +204,19 @@ for min in Min: #range(10,20+1,5):
 
     for i in range(len(core_point_per_klaster)):
       data_temp = core_point_per_klaster[i]
-
-      fig.text(
-         x = (float(data_temp['lon'].min())+float(data_temp['lon'].max()))/2, # float(data_temp['lon'].min())-0.1, #
-         y = (float(data_temp['lat'].min())+float(data_temp['lat'].max()))/2, # float(data_temp['lat'].max()), #
-         text = str(i+1),
-         font = "20p,Helvetica-Bold,black",
-         fill = 'white'
-      )
+    #
+    #  #top = data_temp['lat'].max()
+    #  #top_clus = data_temp.query('lat >= {} and lat <= {}'.format(top-0.5,top))
+    #  #x = top_clus['lon'].min() - 0.5
+    #  #y = top
+    #
+    #  fig.text(
+    #     x = (float(data_temp['lon'].min())+float(data_temp['lon'].max()))/2, # float(data_temp['lon'].min())-0.1, # x, # 
+    #     y = (float(data_temp['lat'].min())+float(data_temp['lat'].max()))/2, # float(data_temp['lat'].max()), # y, # 
+    #     text = str(i+1),
+    #     font = "20p,Helvetica-Bold,black",
+    #     fill = 'white'
+    #  )
 
       # Buat buffer menggunakan Shapely
       points = [Point(x, y) for x, y in zip(data_temp['lon'], data_temp['lat'])]
@@ -241,9 +246,9 @@ for min in Min: #range(10,20+1,5):
       )
 
     #fig.show()
-    fig.savefig('/mnt/d/celebes-stress-inversion-project/Result/DBSCAN/minpts{}eps{}/peta.png'.format(min,eps))
+    fig.savefig('/mnt/d/celebes-stress-inversion-project/Result/DBSCAN/minpts{}eps{:.2f}/peta_blank.png'.format(min,eps))
     print('    peta sebaran tersimpan')
-
+'''
     print('  memulai pembuatan ternery diagram dan ptaxis')
     banyak_cluster = data["cluster"].max()
     for kelas in range(0, banyak_cluster+1):
@@ -253,7 +258,7 @@ for min in Min: #range(10,20+1,5):
       to_ternery = to_ternery.reset_index()
 
       index = list(to_ternery.index.values)
-      fl = '/mnt/d/celebes-stress-inversion-project/Result/DBSCAN/minpts{}eps{}/ternery{}.dat'.format(min,eps,kelas+1)
+      fl = '/mnt/d/celebes-stress-inversion-project/Result/DBSCAN/minpts{}eps{:.2f}/ternery{}.dat'.format(min,eps,kelas+1)
       with open(fl, "w") as dat:
           i = 0
           while i in index:
@@ -269,10 +274,10 @@ for min in Min: #range(10,20+1,5):
               dat.write(isi)
               i += 1
       os.system("python3 /mnt/d/celebes-stress-inversion-project/FMC-master/FMC.py -p " +
-                "'/mnt/d/celebes-stress-inversion-project/Result/DBSCAN/minpts{}eps{}/ternery{}.png' ".format(min,eps,kelas+1) +
+                "'/mnt/d/celebes-stress-inversion-project/Result/DBSCAN/minpts{}eps{:.2f}/ternery{}.png' ".format(min,eps,kelas+1) +
                 fl +
                 ' -pc fclvd -i AR > ' +
-                '/mnt/d/celebes-stress-inversion-project/Result/DBSCAN/minpts{}eps{}/terneryresult{}.dat'.format(min,eps,kelas+1) 
+                '/mnt/d/celebes-stress-inversion-project/Result/DBSCAN/minpts{}eps{:.2f}/terneryresult{}.dat'.format(min,eps,kelas+1) 
       )
       print('    ternery{} tersimpan'.format(kelas+1))
 
@@ -281,7 +286,7 @@ for min in Min: #range(10,20+1,5):
       index = list(to_stress_inversion.index.values)
 
       # create and fill files 
-      with open('/mnt/d/celebes-stress-inversion-project/Result/DBSCAN/minpts{}eps{}/stressinverse{}.dat'.format(min,eps,kelas+1), "w") as dat:
+      with open('/mnt/d/celebes-stress-inversion-project/Result/DBSCAN/minpts{}eps{:.2f}/stressinverse{}.dat'.format(min,eps,kelas+1), "w") as dat:
         dat.write("% ini datanya\n")
         dat.write("%  stike   dip   rake\n")
         i = 0
@@ -299,7 +304,7 @@ for min in Min: #range(10,20+1,5):
           sys.path.append(strinv_dir)
 
       # uses a previously created file as input
-      input_file = '/mnt/d/celebes-stress-inversion-project/Result/DBSCAN/minpts{}eps{}/stressinverse{}.dat'.format(min,eps,kelas+1)
+      input_file = '/mnt/d/celebes-stress-inversion-project/Result/DBSCAN/minpts{}eps{:.2f}/stressinverse{}.dat'.format(min,eps,kelas+1)
       # run stress inverse
 
       import read_mechanism as rm
@@ -311,4 +316,4 @@ for min in Min: #range(10,20+1,5):
 
       # plot P/T axis
       plot_stress(strike,dip,rake,kelas)
-      print('    ptaxis{} tersimpan'.format(kelas+1))   
+      print('    ptaxis{} tersimpan'.format(kelas+1))   '''
