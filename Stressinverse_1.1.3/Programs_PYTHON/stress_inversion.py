@@ -370,6 +370,9 @@ def stress_inversion(strike1,dip1,rake1,strike2,dip2,rake2,friction_min,friction
     #--------------------------------------------------------------------------
     # final inversion with optimum friction
     #--------------------------------------------------------------------------
+    input_fault = np.vstack([strike1,dip1,rake1]).T
+    selected_fault = [input_fault]
+    R_per_iteration = []
     #  loop over iterations
     for i_iteration in range (N_iterations):
         
@@ -377,10 +380,13 @@ def stress_inversion(strike1,dip1,rake1,strike2,dip2,rake2,friction_min,friction
         strike,dip,rake,instability = stability_criterion(tau0,friction_optimum,strike1,dip1,rake1,strike2,dip2,rake2)
         # inversion for stress with correct faults
         tau = linear_stress_inversion(strike, dip, rake)
-    
+        sigma_i = np.sort(np.linalg.eigvals(tau))
+        R_per_iteration.append((sigma_i[0]-sigma_i[1])/(sigma_i[0]-sigma_i[2]))
+        selected_fault.append(np.vstack([strike,dip,rake]).T)
+
         # check of convergency
         norm_difference_tau[i_iteration] = np.linalg.norm(tau-tau0,2)
-                
+
         tau0 = tau
     
     #--------------------------------------------------------------------------
@@ -399,4 +405,4 @@ def stress_inversion(strike1,dip1,rake1,strike2,dip2,rake2,friction_min,friction
     sigma = np.sort(np.linalg.eigvals(tau))
     shape_ratio = (sigma[0]-sigma[1])/(sigma[0]-sigma[2])
 
-    return tau,shape_ratio,strike,dip,rake,instability,friction_optimum,sigma
+    return tau,shape_ratio,strike,dip,rake,instability,friction_optimum,sigma,selected_fault,R_per_iteration

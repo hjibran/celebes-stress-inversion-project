@@ -1,0 +1,9 @@
+# two_color.cpt
+# Biru muda untuk nilai < 0, abu-abu cerah untuk nilai ≥ 0
+# Format: z_low  R/G/B  z_high  R/G/B
+
+-1000   135/206/250   0   135/206/250
+0       209,200,124   1000   209,200,124
+B       135/206/250
+F       209,200,124
+N       255/255/255

@@ -13,8 +13,8 @@ import pygmt
 33    15.0  1.40          0.475058
 '''
 
-eps = 1.4
-min = 4
+eps = 0.35
+min = 15
 
 data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/data/siap-olah/fm50km7mw.csv") #data-tanpa-laut-maluku.csv")
 
@@ -86,10 +86,11 @@ for kelas in range(-1, banyak_cluster+1):
             x=sum(FM.longitude)/len(FM.longitude),
             y=sum(FM.latitude)/len(FM.latitude),
             text=kelas,#str(len(FM)),
-            font="20p,red"
+            font="20p,red",
+            fill='white'
         )
     c += 1
-    print(proses)
+    #print(proses)
     proses += 1
 
 fig.show()

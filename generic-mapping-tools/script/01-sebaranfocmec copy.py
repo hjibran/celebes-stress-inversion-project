@@ -23,27 +23,13 @@ pygmt.makecpt(cmap="terra",#'cork' 'broc
 fig.grdimage(grid=grid, # call grid
              frame=["a", "EWSN"],#, "+tPulau Sulawesi"],
              projection="M10c",
-             cmap= True,
-             shading = True#'gray'#"/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt"
+             cmap= "/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/two_color.cpt", #"/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/script/color.cpt",#True,
+             shading = True
 )
 fig.coast(shorelines='1p,dimgray', 
           #water='skyblue'
 )
 
-# display color bar from grid image
-#fig.colorbar(frame=["a3000f1000", "x+lElevation", "y+lm"],
-#             position="JBL+w6+o2/1.6c+h")
-'''
-# plot fault
-fig.plot(data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/indonesiafaults.gmt",
-         pen="0.75p,black")
-
-# plot trench
-fig.plot(data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/trench.gmt",
-         pen="0.75p,black",
-         style="f1c/0.1c+l+t",
-         fill="black")
-'''
 def struktur(size, color):
 
     a = size * 2 
@@ -123,7 +109,7 @@ def struktur(size, color):
     fig.plot(data=dir+'trench.gmt', style='f1/0.075i+l+t', pen="{}p,{}".format(a, color), fill=color)
     fig.plot(data=dir+'indonesiafaults.gmt', pen="{}p,{}".format(c, color))
     
-struktur(0.75, 'dimgray')
+struktur(0.75, 'black')
 
 fill = "black"
 fig.plot(x=119.4, y=-5.16, style="s0.175c", fill=fill, pen="1p,black")
@@ -151,23 +137,6 @@ fig.plot(x=[124.7, 124.8], y=[1.88, 1.49], pen="0.75p,black")
 fm = pd.read_csv("/mnt/d/celebes-stress-inversion-project/data/siap-olah/fm50km7mw.csv")
 FM = fm.iloc[:, [3, 2, 4, 6, 7, 8, 5]]
 FM.columns = ["longitude", "latitude", "depth", "strike", "dip", "rake", "magnitude"]
-
-
-#make color ramp for depth
-#depth_group = []
-#for i in range(len(FM)):
-#    if 0 <= FM['depth'][i] < 10:
-#        group = '0-10'
-#    elif 10 <= FM['depth'][i] < 20:
-#        group = '10-20'
-#    elif 20 <= FM['depth'][i] < 30:
-#        group = '20-30'
-#    elif 30 <= FM['depth'][i] < 40:
-#        group = '30-40'
-#    elif 40 <= FM['depth'][i] <= 50:
-#        group = '40-50'
-#    depth_group.append(group)
-#depth_group = pd.DataFrame(np.array(depth_group), columns=['group'])
 
 pygmt.makecpt(cmap="hot", 
               reverse = True, 
@@ -212,6 +181,3 @@ fig.basemap(rose="jTL+w0.9c+lW,E,S,N+o0.3c/0.3c+f2",
 
 # show picture
 fig.show()
-#fig.savefig("/mnt/d/celebes-stress-inversion-project/generic-mapping-tools/maps/basemap.pdf")
-#plate_boundary = gpd.read_file("/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/bird2003/PB2002_steps.shp")
-#fig.plot(data=plate_boundary, pen="0.25p,black,-", label="Plate Boundary")

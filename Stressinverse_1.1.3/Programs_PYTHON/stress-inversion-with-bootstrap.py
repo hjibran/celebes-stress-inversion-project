@@ -1,4 +1,4 @@
-#!/home/haidir/celebes-stress-inversion-project/bin/python3
+#!/home/haidir/celebes-stress-inversion-project/bin/python
 
 """
     This is the python code to run the modified Stressinversion
@@ -24,25 +24,26 @@ import matplotlib.pyplot as plt
     # print  output: 2
     # statistic error: 3
     # to run all cluster: 4
-output = 1
+output = 2
 if output == 3:
     input_file = "/mnt/d/celebes-stress-inversion-project/Result/eps0.40min15/stressinverse/data/cls{}.dat".format(sys.argv[1])
     seed = int(sys.argv[2])
 elif output == 4:
-    input_file = "/mnt/d/celebes-stress-inversion-project/Result/eps{}min15-final/stressinverse/data/cls{}.dat".format(sys.argv[1], sys.argv[2])
+    input_file = r"/mnt/d/celebes-stress-inversion-project/Result/eps{}min15-final/stressinverse/data/cls{}.dat".format(sys.argv[1], sys.argv[2])
     output_file = "/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/eps{}pts15/new_shmax/cls{}/".format(sys.argv[1], sys.argv[2])
     seed = int(sys.argv[3])
 else:
     # path to file input, file output, and seed (to initialize random bootstrap)
-    input_file = r"Stressinverse_1.1.3/Output/eps0.40pts15/new_shmax/palukoro-with-data-kusumawati/datawithkusumawati(A-D)aftertoinverse.dat"
-    output_file = r"Stressinverse_1.1.3/Output/eps0.40pts15/new_shmax/palukoro-with-data-kusumawati/datawithkusumawati(A-D)after/"
-    seed = 1
+    input_file = r"/mnt/d/celebes-stress-inversion-project/Result/eps0.50min15-final/stressinverse/cls8.dat"
+    output_file = r"./"
+    seed = 14
 
 # plot option
     # plot with plt.show(): 1
     # save to picture file: 2
-    #  don't plot anything: 3
-plot = 2
+    # don't plot anything: 3
+    # plot konvergensi pemilihan patahan: 4
+plot = 4
 
 # number of random bootstrap
 N_bootstrap = 250
@@ -50,7 +51,7 @@ N_bootstrap = 250
 # ----------------------------------------------------------------------------------------
 # advance control parameter(usually not needed to be changed)
 # number of iterations of the stress inversion 
-N_iterations = 6
+N_iterations = 100
 
 # number of initial stres inversions with random choice of faults
 N_realizations = 10
@@ -75,7 +76,7 @@ def run(str1,dip1,rak1,str2,dip2,rak2,k=0,
     # ----------------------------------------------------------------------------------------
     # inversion for stress
     import stress_inversion as si
-    tau_optimum,shape_ratio,strike,dip,rake,instability,friction,sigma = si.stress_inversion(
+    tau_optimum,shape_ratio,strike,dip,rake,instability,friction,sigma,selected_fault,R_per_iteration = si.stress_inversion(
         str1,dip1,rak1,str2,dip2,rak2,
         friction_min,friction_max,friction_step,N_iterations,N_realizations) 
     
@@ -136,7 +137,7 @@ def run(str1,dip1,rak1,str2,dip2,rak2,k=0,
             principal_strike[1], principal_dip[1], principal_rake[1],\
             strike, dip, rake,\
             sigma_vector_1_optimum, sigma_vector_2_optimum, sigma_vector_3_optimum,\
-            aR
+            aR, selected_fault, R_per_iteration
 
 
 # ========================================================================================
@@ -169,7 +170,7 @@ def orgn(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
         org[0][18], org[0][19], org[0][20],\
         strike, dip, rake,\
         sigma_vector_1_optimum, sigma_vector_2_optimum, sigma_vector_3_optimum,\
-        org[0][21]\
+        org[0][21], selected_fault, R_per_iteration\
         = run(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2,k)
 
     print('origin selesai')
@@ -183,173 +184,191 @@ def orgn(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2):
         "simpson index"])
 
     # return the data frame
-    return origin, strike, dip, rake
-origin, strike, dip, rake = orgn(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2)
+    return origin, strike, dip, rake, selected_fault, R_per_iteration
+origin, strike, dip, rake, selected_fault, R_per_iteration = orgn(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2)
 
-# ----------------------------------------------------------------------------------------
-# data with bootstrap
-# make function
-def btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2, origin):
-    import numpy as np
-    import pandas as pd
-    from random import choice
-    np.random.seed(seed)
+## ----------------------------------------------------------------------------------------
+## data with bootstrap
+## make function
+#def btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2, origin):
+#    import numpy as np
+#    import pandas as pd
+#    from random import choice
+#    np.random.seed(seed)
+#
+#    # make bootstrap data
+#    boots = np.zeros((N_bootstrap, 22))
+#    sigma_vector_11 = np.zeros((N_bootstrap)); sigma_vector_12 = np.zeros((N_bootstrap)); sigma_vector_13 = np.zeros((N_bootstrap))
+#    sigma_vector_21 = np.zeros((N_bootstrap)); sigma_vector_22 = np.zeros((N_bootstrap)); sigma_vector_23 = np.zeros((N_bootstrap))
+#    sigma_vector_31 = np.zeros((N_bootstrap)); sigma_vector_32 = np.zeros((N_bootstrap)); sigma_vector_33 = np.zeros((N_bootstrap))
+#    
+#    idxs = [i for i in range(len(or_str1))]
+#    for i in range(N_bootstrap):
+#        print("run bootstrap ke {}".format(i+1))
+#        idxs_boot = np.array([np.random.randint(0, len(or_str1)) for i in range(len(or_str1))])
+#        bt_str1 = or_str1[idxs_boot]
+#        bt_dip1 = or_dip1[idxs_boot]
+#        bt_rak1 = or_rak1[idxs_boot]
+#        bt_str2 = or_str2[idxs_boot]
+#        bt_dip2 = or_dip2[idxs_boot]
+#        bt_rak2 = or_rak2[idxs_boot]
+#
+#        origin = origin
+#        # run the stress inversion with origin data
+#        boots[i][0], boots[i][1], boots[i][2], boots[i][3], boots[i][4], boots[i][5],\
+#            boots[i][6], boots[i][7], boots[i][8], boots[i][9], boots[i][10], boots[i][11],\
+#            boots[i][12], boots[i][13], boots[i][14],\
+#            boots[i][15], boots[i][16], boots[i][17],\
+#            boots[i][18], boots[i][19], boots[i][20],\
+#            strike, dip, rake,\
+#            sigma_vector_1_optimum, sigma_vector_2_optimum, sigma_vector_3_optimum,\
+#            boots[i][21], selected_fault, R_per_iteration\
+#            = run(bt_str1,bt_dip1,bt_rak1,bt_str2,bt_dip2,bt_rak2,origin)
+#        
+#        sigma_vector_11[i] = sigma_vector_1_optimum[0]; sigma_vector_12[i] = sigma_vector_1_optimum[1]; sigma_vector_13[i] = sigma_vector_1_optimum[2]
+#        sigma_vector_21[i] = sigma_vector_2_optimum[0]; sigma_vector_22[i] = sigma_vector_2_optimum[1]; sigma_vector_23[i] = sigma_vector_2_optimum[2]
+#        sigma_vector_31[i] = sigma_vector_3_optimum[0]; sigma_vector_32[i] = sigma_vector_3_optimum[1]; sigma_vector_33[i] = sigma_vector_3_optimum[2]
+#
+#    print('bootstrap selesai')
+#    # make a data frame for stress inversion output
+#    bootstrap = pd.DataFrame(boots, columns=
+#        ["tau11", "tau12", "tau13", "tau22", "tau23", "tau33",
+#        "azimuth sigma 1", "plunge sigma 1", "azimuth sigma 2", "plunge sigma 2", "azimuth sigma 3", "plunge sigma 3",
+#        "shape ratio", "friction", "SHmax",
+#        "principal strike 1", "principal dip 1", "principal rake 1",
+#        "principal strike 2", "principal dip 2", "principal rake 2",
+#        "simpson index"])
+#    
+#    sigma_vector_1_statistics = np.array([sigma_vector_11, sigma_vector_12, sigma_vector_13])
+#    sigma_vector_2_statistics = np.array([sigma_vector_21, sigma_vector_22, sigma_vector_23])
+#    sigma_vector_3_statistics = np.array([sigma_vector_31, sigma_vector_32, sigma_vector_33])
+#    
+#    # return the data frame
+#    return bootstrap, sigma_vector_1_statistics, sigma_vector_2_statistics, sigma_vector_3_statistics
+#bootstrap, sigma_vector_1_statistics, sigma_vector_2_statistics, sigma_vector_3_statistics = btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2,origin)
+#
+#
+## ========================================================================================
+## ------------------------------------------------
+## save result
+## ------------------------------------------------
+## make function
+#def confidence_data(data):
+#    import numpy as np
+#    import unify_direction as ud
+#    
+#    dat, tempo = ud.unifying_direction(data)
+#
+#    # calculate error
+#    mean_of_all_data = np.mean(tempo)
+#    stdev = np.std(tempo)
+#    percentil = ud.percentil(tempo)
+#    half_of_95_percentil = np.float64((np.percentile(tempo, 97.5)-np.percentile(tempo, 2.5))/2)
+#    data_in_percentil_range = [x for x in tempo if np.percentile(tempo, 2.5) <= x <= np.percentile(tempo, 97.5)]
+#    mean_of_ci95_data = np.mean(data_in_percentil_range)
+#    stdev_of_ci95 = np.std(data_in_percentil_range)
+#    result = pd.DataFrame(np.array([[mean_of_all_data, stdev, mean_of_ci95_data, stdev_of_ci95, np.float64(percentil[0]), np.float64(percentil[1]), half_of_95_percentil]]),
+#                            columns=["mean of all data","stdev","mean of ci95 data","stdev of ci95","2.5%","97.5%","half width 95% percentil"])
+#    return result
+#
+## store error to data frame
+#error = pd.concat([confidence_data(bootstrap["azimuth sigma 1"]), confidence_data(bootstrap["plunge sigma 1"]), 
+#                   confidence_data(bootstrap["azimuth sigma 2"]), confidence_data(bootstrap["plunge sigma 2"]), 
+#                   confidence_data(bootstrap["azimuth sigma 3"]), confidence_data(bootstrap["plunge sigma 3"]), 
+#                   confidence_data(bootstrap["SHmax"]), confidence_data(bootstrap["shape ratio"]),
+#                   confidence_data(bootstrap["simpson index"])])
+#
+#if output == 1 or output == 4:
+#    # export to csv
+#    origin.drop([1]).to_csv(output_file + "output_origin.csv", index=False); print('file origin tersimpan')
+#    bootstrap.to_csv(output_file + "output_bootstarap.csv", index=False); print('file bootstrap tersimpan')
+#    error.insert(0, "value", ["Sigma1 Azimuth", "Sigma1 Plunge",\
+#                            "Sigma2 Azimuth", "Sigma2 Plunge",\
+#                            "Sigma3 Azimuth", "Sigma3 Plunge",\
+#                            "SHmax", "Shape Ratio",
+#                            "simpson index"])
+#    error.to_csv(output_file + "output_error.csv", index=False); print('file error tersimpan')
+#elif output == 2:
+#    print(origin.drop([1]))
+#    print(bootstrap)
+#    print(error)
+#elif output == 3:
+#    error.to_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/statistic_error.csv", index=False)
+#else:
+#    print("You don't define the output option")
+#
+## ========================================================================================
+## ------------------------------------------------
+## plot result
+## ------------------------------------------------
+## make function
+#def histo(title, data, plot, bin = 25):
+#    import statistics as sts
+#    import unify_direction as ud
+#
+#    result, tempo = ud.unifying_direction(data)
+#
+#    #bin: 
+#    # "az" for azimuth or SHmax, 
+#    # "pl" for plunge, and 
+#    # "sr" for shape ratio
+#    mode = sts.mode(data)
+#    if bin == "az":
+#        bin = np.arange(mode-90, mode+90, 4)
+#    elif bin == "pl":
+#        bin = np.arange(0, 90, 2)
+#    elif bin == "sr":
+#        bin = np.arange(0+0.0125, 1, 0.025)
+#    elif bin == "ar":
+#        bin = np.arange(0, 3, 0.075)
+#    
+#    if plot == 3:
+#        pass
+#    else:
+#        pltHist, axH = plt.subplots()
+#        n, bins, patches = axH.hist(x = tempo, bins = bin, color='#0504aa', alpha = 0.7, rwidth=0.85)
+#        axH.set_title(title, fontsize = 14)
+#        axH.grid(True)
+#        if plot == 1:
+#            plt.show()
+#        elif plot == 2:
+#            plt.savefig(output_file + "{}.png".format(title))
+#            print('plot {} tersimpan'.format(title))
+#
+#histo("Azimuth Sigma 1", bootstrap["azimuth sigma 1"], plot, "az")
+#histo("Plunge sigma 1", bootstrap["plunge sigma 1"], plot, "pl")
+#histo("Azimuth Sigma 2", bootstrap["azimuth sigma 2"], plot, "az")
+#histo("Plunge sigma 2", bootstrap["plunge sigma 2"], plot, "pl")
+#histo("Azimuth Sigma 3", bootstrap["azimuth sigma 3"], plot, "az")
+#histo("Plunge sigma 3", bootstrap["plunge sigma 3"], plot, "pl")
+#histo("SHmax", bootstrap["SHmax"], plot, "az")
+#histo("Shape Ratio", bootstrap["shape ratio"], plot, "sr")
+#histo("Simpson Index", bootstrap["simpson index"], plot, "ar")
+#
+## ----------------------------------------------------------------------------------------
+## P/T axes and the optimum principal stress axes
+#import plot_stress as plots
+#plots.plot_stress(1,strike,dip,rake,plot,output_file)
+#
+## ----------------------------------------------------------------------------------------
+## confidence limiuts of the principal stress axes
+#import plot_stress_axes as plotsa
+#plotsa.plot_stress_axes(sigma_vector_1_statistics, sigma_vector_2_statistics, sigma_vector_3_statistics, plot,output_file)
 
-    # make bootstrap data
-    boots = np.zeros((N_bootstrap, 22))
-    sigma_vector_11 = np.zeros((N_bootstrap)); sigma_vector_12 = np.zeros((N_bootstrap)); sigma_vector_13 = np.zeros((N_bootstrap))
-    sigma_vector_21 = np.zeros((N_bootstrap)); sigma_vector_22 = np.zeros((N_bootstrap)); sigma_vector_23 = np.zeros((N_bootstrap))
-    sigma_vector_31 = np.zeros((N_bootstrap)); sigma_vector_32 = np.zeros((N_bootstrap)); sigma_vector_33 = np.zeros((N_bootstrap))
+if plot ==4:
+    import akurasi_pemilihan_fault as apf
     
-    idxs = [i for i in range(len(or_str1))]
-    for i in range(N_bootstrap):
-        print("run bootstrap ke {}".format(i+1))
-        idxs_boot = np.array([np.random.randint(0, len(or_str1)) for i in range(len(or_str1))])
-        bt_str1 = or_str1[idxs_boot]
-        bt_dip1 = or_dip1[idxs_boot]
-        bt_rak1 = or_rak1[idxs_boot]
-        bt_str2 = or_str2[idxs_boot]
-        bt_dip2 = or_dip2[idxs_boot]
-        bt_rak2 = or_rak2[idxs_boot]
-
-        origin = origin
-        # run the stress inversion with origin data
-        boots[i][0], boots[i][1], boots[i][2], boots[i][3], boots[i][4], boots[i][5],\
-            boots[i][6], boots[i][7], boots[i][8], boots[i][9], boots[i][10], boots[i][11],\
-            boots[i][12], boots[i][13], boots[i][14],\
-            boots[i][15], boots[i][16], boots[i][17],\
-            boots[i][18], boots[i][19], boots[i][20],\
-            strike, dip, rake,\
-            sigma_vector_1_optimum, sigma_vector_2_optimum, sigma_vector_3_optimum,\
-            boots[i][21],\
-            = run(bt_str1,bt_dip1,bt_rak1,bt_str2,bt_dip2,bt_rak2,origin)
-        
-        sigma_vector_11[i] = sigma_vector_1_optimum[0]; sigma_vector_12[i] = sigma_vector_1_optimum[1]; sigma_vector_13[i] = sigma_vector_1_optimum[2]
-        sigma_vector_21[i] = sigma_vector_2_optimum[0]; sigma_vector_22[i] = sigma_vector_2_optimum[1]; sigma_vector_23[i] = sigma_vector_2_optimum[2]
-        sigma_vector_31[i] = sigma_vector_3_optimum[0]; sigma_vector_32[i] = sigma_vector_3_optimum[1]; sigma_vector_33[i] = sigma_vector_3_optimum[2]
-
-    print('bootstrap selesai')
-    # make a data frame for stress inversion output
-    bootstrap = pd.DataFrame(boots, columns=
-        ["tau11", "tau12", "tau13", "tau22", "tau23", "tau33",
-        "azimuth sigma 1", "plunge sigma 1", "azimuth sigma 2", "plunge sigma 2", "azimuth sigma 3", "plunge sigma 3",
-        "shape ratio", "friction", "SHmax",
-        "principal strike 1", "principal dip 1", "principal rake 1",
-        "principal strike 2", "principal dip 2", "principal rake 2",
-        "simpson index"])
+    konvergensi = []
+    identik=[]
+    for i in range(len(selected_fault)):
+        if i != 0:
+            konvergensi.append(apf.konvergensi(selected_fault[i], selected_fault[i-1]))
+            identik.append(apf.konvergensi(selected_fault[i], selected_fault[0]))
     
-    sigma_vector_1_statistics = np.array([sigma_vector_11, sigma_vector_12, sigma_vector_13])
-    sigma_vector_2_statistics = np.array([sigma_vector_21, sigma_vector_22, sigma_vector_23])
-    sigma_vector_3_statistics = np.array([sigma_vector_31, sigma_vector_32, sigma_vector_33])
+    print("persen kesamaan dengan data input")
+    apf.plot_konvergensi(identik)
+    print("konvergensi")
+    apf.plot_konvergensi(konvergensi)
+    print("Nilai R per Iterasi")
+    apf.plot_shape_ratio(R_per_iteration)
     
-    # return the data frame
-    return bootstrap, sigma_vector_1_statistics, sigma_vector_2_statistics, sigma_vector_3_statistics
-bootstrap, sigma_vector_1_statistics, sigma_vector_2_statistics, sigma_vector_3_statistics = btstrp(or_str1,or_dip1,or_rak1,or_str2,or_dip2,or_rak2,origin)
-
-
-# ========================================================================================
-# ------------------------------------------------
-# save result
-# ------------------------------------------------
-# make function
-def confidence_data(data):
-    import numpy as np
-    import unify_direction as ud
-    
-    dat, tempo = ud.unifying_direction(data)
-
-    # calculate error
-    mean_of_all_data = np.mean(tempo)
-    stdev = np.std(tempo)
-    percentil = ud.percentil(tempo)
-    half_of_95_percentil = np.float64((np.percentile(tempo, 97.5)-np.percentile(tempo, 2.5))/2)
-    data_in_percentil_range = [x for x in tempo if np.percentile(tempo, 2.5) <= x <= np.percentile(tempo, 97.5)]
-    mean_of_ci95_data = np.mean(data_in_percentil_range)
-    stdev_of_ci95 = np.std(data_in_percentil_range)
-    result = pd.DataFrame(np.array([[mean_of_all_data, stdev, mean_of_ci95_data, stdev_of_ci95, np.float64(percentil[0]), np.float64(percentil[1]), half_of_95_percentil]]),
-                            columns=["mean of all data","stdev","mean of ci95 data","stdev of ci95","2.5%","97.5%","half width 95% percentil"])
-    return result
-
-# store error to data frame
-error = pd.concat([confidence_data(bootstrap["azimuth sigma 1"]), confidence_data(bootstrap["plunge sigma 1"]), 
-                   confidence_data(bootstrap["azimuth sigma 2"]), confidence_data(bootstrap["plunge sigma 2"]), 
-                   confidence_data(bootstrap["azimuth sigma 3"]), confidence_data(bootstrap["plunge sigma 3"]), 
-                   confidence_data(bootstrap["SHmax"]), confidence_data(bootstrap["shape ratio"]),
-                   confidence_data(bootstrap["simpson index"])])
-
-if output == 1 or output == 4:
-    # export to csv
-    origin.drop([1]).to_csv(output_file + "output_origin.csv", index=False); print('file origin tersimpan')
-    bootstrap.to_csv(output_file + "output_bootstarap.csv", index=False); print('file bootstrap tersimpan')
-    error.insert(0, "value", ["Sigma1 Azimuth", "Sigma1 Plunge",\
-                            "Sigma2 Azimuth", "Sigma2 Plunge",\
-                            "Sigma3 Azimuth", "Sigma3 Plunge",\
-                            "SHmax", "Shape Ratio",
-                            "simpson index"])
-    error.to_csv(output_file + "output_error.csv", index=False); print('file error tersimpan')
-elif output == 2:
-    print(origin.drop([1]))
-    print(bootstrap)
-    print(error)
-elif output == 3:
-    error.to_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/statistic_error.csv", index=False)
-else:
-    print("You don't define the output option")
-
-# ========================================================================================
-# ------------------------------------------------
-# plot result
-# ------------------------------------------------
-# make function
-def histo(title, data, plot, bin = 25):
-    import statistics as sts
-    import unify_direction as ud
-
-    result, tempo = ud.unifying_direction(data)
-
-    #bin: 
-    # "az" for azimuth or SHmax, 
-    # "pl" for plunge, and 
-    # "sr" for shape ratio
-    mode = sts.mode(data)
-    if bin == "az":
-        bin = np.arange(mode-90, mode+90, 4)
-    elif bin == "pl":
-        bin = np.arange(0, 90, 2)
-    elif bin == "sr":
-        bin = np.arange(0+0.0125, 1, 0.025)
-    elif bin == "ar":
-        bin = np.arange(0, 3, 0.075)
-    
-    if plot == 3:
-        pass
-    else:
-        pltHist, axH = plt.subplots()
-        n, bins, patches = axH.hist(x = tempo, bins = bin, color='#0504aa', alpha = 0.7, rwidth=0.85)
-        axH.set_title(title, fontsize = 14)
-        axH.grid(True)
-        if plot == 1:
-            plt.show()
-        elif plot == 2:
-            plt.savefig(output_file + "{}.png".format(title))
-            print('plot {} tersimpan'.format(title))
-
-histo("Azimuth Sigma 1", bootstrap["azimuth sigma 1"], plot, "az")
-histo("Plunge sigma 1", bootstrap["plunge sigma 1"], plot, "pl")
-histo("Azimuth Sigma 2", bootstrap["azimuth sigma 2"], plot, "az")
-histo("Plunge sigma 2", bootstrap["plunge sigma 2"], plot, "pl")
-histo("Azimuth Sigma 3", bootstrap["azimuth sigma 3"], plot, "az")
-histo("Plunge sigma 3", bootstrap["plunge sigma 3"], plot, "pl")
-histo("SHmax", bootstrap["SHmax"], plot, "az")
-histo("Shape Ratio", bootstrap["shape ratio"], plot, "sr")
-histo("Simpson Index", bootstrap["simpson index"], plot, "ar")
-
-# ----------------------------------------------------------------------------------------
-# P/T axes and the optimum principal stress axes
-import plot_stress as plots
-plots.plot_stress(1,strike,dip,rake,plot,output_file)
-
-# ----------------------------------------------------------------------------------------
-# confidence limiuts of the principal stress axes
-import plot_stress_axes as plotsa
-plotsa.plot_stress_axes(sigma_vector_1_statistics, sigma_vector_2_statistics, sigma_vector_3_statistics, plot,output_file)

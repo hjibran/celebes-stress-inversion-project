@@ -82,7 +82,9 @@ def fault_mechanism(strike, dip, rake):
     elif word == "R-SS":
         k = 2
     elif word == "R":
-        k = 2 
+        k = 2     
+    else:
+        raise ValueError(f"Output FMC.py tidak dikenali: {word}")
 
     return k
  

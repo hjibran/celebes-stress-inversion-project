@@ -4,6 +4,55 @@ import pygmt
 import pandas as pd
 import geopandas as gpd
 
+def shmax_plot(lon, lat, down, up, AR, clus):
+    if down <=180:
+        down1 = down+180
+    elif down > 180:
+        down1 = down -180
+    if up <=180:
+        up1 = up+180
+    elif up > 180:
+        up1 = up -180
+    
+    if 0 <= AR < 0.25:
+        fill = "darkblue"
+    elif 0.25 <= AR < 0.75:
+        fill = "blue"
+    elif 0.75 <= AR < 1.25:
+        fill = "green"
+    elif 1.25 <= AR < 1.75:
+        fill = "yellow"
+    elif 1.75 <= AR < 2.25:
+        fill = "orange"
+    elif 2.25 <= AR < 2.75:
+        fill = "red"
+    else:
+        fill = "darkred"
+
+    if clus == 15.35:
+        pen = '1p,springgreen3'
+    elif clus == 15.40:
+        pen = '1p,gold2'
+    elif clus == 15.50:
+        pen = '1p,tomato'
+    '''
+    if 0 <= AR < 1:
+        fill = "blue"
+    elif 1 <= AR < 2:
+        fill = "green"
+    elif 2.0 <= AR < 3:
+        fill = "red"
+
+    pen = 'black'
+    '''
+    data = [[lon, lat, 360-up+90, 360-down+90], [lon, lat, 360-up1+90, 360-down1+90]]
+    fig.plot(data=data, style="w8c", fill=fill, cmap=False, transparency=25, pen=pen)
+
+table = pd.read_csv("/mnt/d/celebes-stress-inversion-project/Stressinverse_1.1.3/Output/shmax/shmax.csv")
+
+table1 = table#table.query('name == 15.40')
+table1 = table1.reset_index()
+
 data = pd.read_csv("/mnt/d/celebes-stress-inversion-project/data/siap-olah/fm50km7mw.csv")
 FM = data.iloc[:, [3, 2, 4, 6, 7, 8, 5]]
 FM.columns = ["longitude", "latitude", "depth", "strike", "dip", "rake", "magnitude"]
@@ -30,6 +79,10 @@ fig.plot(
     pen="3.75p,black",
     label='Fault'
 )
+
+boundary = gpd.read_file("/mnt/d/celebes-stress-inversion-project/data/Soquet2006/soquet2006plateboundary(LN)disesuaikan.shp")
+fig.plot(data=boundary, pen="10p,dimgray", label="microblock (Soquet, 2006)")
+
 fig.plot(
     data="/mnt/d/celebes-stress-inversion-project/data/batas-lempeng-dan-patahan/trench.gmt", 
     pen="4.5p,black", 
@@ -38,30 +91,30 @@ fig.plot(
     label='Subduction'
 )
 
-utara=[117.5, 126, -3.55, 3.5]
-selatan=[118.5, 123, -4.5, -1.7]
-maluku=[123.3, 129.5, -2.05, 5.3]
-sula=[125.5, 128, -3.5, -2.25]
-sangihe=[124.4, 126.9, 4, 6.6]
-ntt=[124.2, 126.8, -9.2, -7.2]
-
-def inset(R):
-    x = [R[0], R[1], R[1], R[0], R[0]]
-    y = [R[2], R[2], R[3], R[3], R[2]]
-    return x, y
-
-for i in [utara, selatan, maluku, sula, sangihe, ntt]:
-    x, y = inset(i)
-    fig.plot(x=x,
-             y=y,
-             pen='4p,black'
-    )
+# utara=[117.5, 126, -3.55, 3.5]
+# selatan=[118.5, 123, -4.5, -1.7]
+# maluku=[123.3, 129.5, -2.05, 5.3]
+# sula=[125.5, 128, -3.5, -2.25]
+# sangihe=[124.4, 126.9, 4, 6.6]
+# ntt=[124.2, 126.8, -9.2, -7.2]
+# 
+# def inset(R):
+#     x = [R[0], R[1], R[1], R[0], R[0]]
+#     y = [R[2], R[2], R[3], R[3], R[2]]
+#     return x, y
+# 
+# for i in [utara, selatan, maluku, sula, sangihe, ntt]:
+#     x, y = inset(i)
+#     fig.plot(x=x,
+#              y=y,
+#              pen='4p,black'
+#     )
 
 fig.plot(x=FM.longitude, y=FM.latitude, style="c0.375c", fill='darkgray', pen='black', label='Epicenter')
 
-fig.plot(data=buffer03515, pen="7.5p,springgreen3", label="ε=0.35 MinPts=15")
-fig.plot(data=buffer04015, pen="7.5p,gold2", label="ε=0.40 MinPts=15")
-fig.plot(data=buffer05015, pen="7.5p,tomato", label="ε=0.50 MinPts=15")
+#fig.plot(data=buffer03515, pen="7.5p,springgreen3", label="ε=0.35 MinPts=15")
+#fig.plot(data=buffer04015, pen="7.5p,gold2", label="ε=0.40 MinPts=15")
+#fig.plot(data=buffer05015, pen="7.5p,tomato", label="ε=0.50 MinPts=15")
 
 fill = "red"
 fig.plot(x=119.4, y=-5.16, style="s0.9375c", fill=fill, pen="3.75p,black", label="Provincial capital")
@@ -94,5 +147,8 @@ fig.basemap(
 #with pygmt.config(FONT_ANNOT_PRIMARY="45p"):
 #    fig.legend(position="JTR+jTR+o0.2c", box="+gwhite+pblack")
 
-fig.savefig("/mnt/d/class-boundaries.png")
+for i in range(len(table1)):
+    shmax_plot(table1['lon'][i], table1['lat'][i], table1['down'][i], table1['up'][i], table1['AR'][i], table1['name'][i])
+
+#fig.savefig("/mnt/d/class-boundaries.png")
 fig.show()
